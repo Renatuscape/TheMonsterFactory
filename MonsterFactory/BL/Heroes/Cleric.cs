@@ -11,21 +11,21 @@ namespace TheMonsterFactory.BL.Heroes
 
         public int HealOthers(out string description)
         {
-            description = $"{Name} healed their friends!";
+            description = $"{Name} heals their friends!";
 
             return Dice[Dice.Count - 1].Roll(1 * (Level / 6));
         }
 
         public int HealSelf(out string description)
         {
-            description = $"{Name} healed themselves!";
+            description = $"{Name} heals themselves!";
 
             return Dice[Dice.Count - 1].Roll(Level);
         }
 
         public override int Attack(out string description)
         {
-            description = $"{Name} poked the enemy.";
+            description = $"{Name} pokes the enemy.";
 
             return 1 * Level;
         }

@@ -13,7 +13,7 @@
             return Dice[Dice.Count - 1].Roll(Level);
         }
 
-        public virtual string Move()
+        public override string Move()
         {
             return $"{Name} rushes forwards!";
         }
