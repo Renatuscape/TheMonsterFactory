@@ -12,7 +12,7 @@ namespace MonsterFactory.UI
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             WriteLine(">> Press any key to continue");
-            ReadLine();
+            ReadKey();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
         }
