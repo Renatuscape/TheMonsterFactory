@@ -5,7 +5,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
     public static class HeroChecker
     {
         static HeroMaker heroMaker = new HeroMaker();
-        public static void HeroNumerCheck(ref List<Hero> heroList, ITextManagement textManager)
+        public static void HeroNumerCheck(ref List<Hero> heroList, int playerLevel, ITextManagement textManager)
         {
             textManager.WriteLine("\nSummoning phase!");
             textManager.ContinueAfterAnyKey();
@@ -23,11 +23,11 @@ namespace TheMonsterFactory.BL.GamePlayLogic
                 }
 
                 textManager.Write("\nCall on a hero by name: ");
-                var input = textManager.ReadLine() ?? "John";
+                string input = textManager.ReadLine() ?? "John";
                 Hero newHero;
 
-                if (hasCleric) { newHero = heroMaker.Create(input); }
-                else { newHero = heroMaker.CreateCleric(input); }
+                if (hasCleric) { newHero = heroMaker.Create(playerLevel, input); }
+                else { newHero = heroMaker.CreateCleric(playerLevel, input); }
 
                 heroList.Add(newHero);
                 textManager.WriteLine($"{input} ({newHero.GetType().Name}) has joined the party.");

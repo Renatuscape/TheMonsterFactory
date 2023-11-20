@@ -10,6 +10,6 @@ namespace TheMonsterFactory.BL.GamePlayLogic
     public abstract class CreatureFactory
     {
         public NameGenerator nameGenerator = new();
-        public abstract Creature Create(string name);
+        public abstract Creature Create(int level, string name);
     }
 }
