@@ -8,22 +8,24 @@ namespace TheMonsterFactory.BL.Monsters
 {
     internal class Spectre : Monster, IHeal
     {
-        public Spectre(string name) : base(name)
+        public Spectre(string name, int level) : base(name, level)
         {
         }
 
         public int HealOthers(out string description)
         {
-            description = $"{Name} heals the other monsters!";
+            int amount = Dice[Dice.Count - 1].Roll(1 * (Level / 6));
+            description = $"{Name} heals each of the other monsters for {amount} points!";
 
-            return Dice[Dice.Count - 1].Roll(1 * (Level / 6));
+            return amount;
         }
 
         public int HealSelf(out string description)
         {
-            description = $"{Name} heals itself!";
+            int amount = Dice[Dice.Count - 1].Roll(Level);
+            description = $"{Name} heals itself for {amount} points!";
 
-            return Dice[Dice.Count - 1].Roll(Level);
+            return amount;
         }
 
         public override int Attack(out string description)

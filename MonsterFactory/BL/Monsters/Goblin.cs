@@ -8,15 +8,16 @@ namespace TheMonsterFactory.BL.Monsters
 {
     internal class Goblin : Monster
     {
-        public Goblin(string name) : base(name)
+        public Goblin(string name, int level) : base(name, level)
         {
 
         }
 
         public override int Attack(out string description)
         {
-            description = $"{Name} swipes with its claws!";
-            return Dice[Dice.Count - 1].Roll(Level);
+            int amount = Dice[Dice.Count - 1].Roll(Level);
+            description = $"{Name} swipes with its claws for {amount}!";
+            return amount;
         }
     }
 }

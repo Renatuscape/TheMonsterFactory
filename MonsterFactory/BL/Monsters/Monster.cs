@@ -8,7 +8,7 @@ namespace TheMonsterFactory.BL.Monsters
 {
     public abstract class Monster : Creature, IAttack
     {
-        public Monster(string name) : base(name)
+        public Monster(string name, int level) : base(name, level)
         {
             Description = "A nasty little trickster.";
         }

@@ -4,16 +4,27 @@ namespace TheMonsterFactory.BL
 {
     public abstract class Creature
     {
-        public string Name { get; set; }
+        public string Name { get; }
         public int Health { get; set; }
         public int Level { get; set; } = 1;
         public List<Die> Dice { get; set; } = new();
         public string Description { get; set; } = string.Empty;
-        public Creature(string name)
+        public List<string> ActionList { get; set; } = new()
+        {
+            "Attack",
+            "Move"
+        };
+        public Creature(string name, int level)
         {
             Name = name;
+            Level = 0;
             Dice.Add(new D4());
             UpdateHealth();
+
+            for (int i = 0; i < level; i++)
+            {
+                LevelUp();
+            }
         }
 
         public virtual void UpdateHealth()
@@ -60,12 +71,17 @@ namespace TheMonsterFactory.BL
         }
         public override string ToString()
         {
-            return $"Name: {Name} ({GetType().Name})";
+            return $"{Name} ({GetType().Name})";
         }
 
         public virtual string Move()
         {
             return $"{Name} moves forward.";
+        }
+
+        public virtual List<string> GetActionList()
+        {
+            return ActionList;
         }
     }
 }
