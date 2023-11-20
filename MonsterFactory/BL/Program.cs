@@ -1,4 +1,5 @@
-﻿using TheMonsterFactory.BL.GamePlay;
+﻿using MonsterFactory.UI;
+using TheMonsterFactory.BL.GamePlay;
 
 namespace TheMonsterFactory.BL
 {
@@ -6,7 +7,8 @@ namespace TheMonsterFactory.BL
     {
         static void Main(string[] args)
         {
-            GameRound gameplay = new();
+            ConsoleTextManager textManager = new();
+            NewGame gameplay = new(textManager);
         }
     }
 }
