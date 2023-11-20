@@ -50,12 +50,22 @@ namespace TheMonsterFactory.BL
             UpdateHealth();
         }
 
-        public override string ToString()
+        public virtual string FullStats()
         {
             return $"Name: {Name} ({GetType().Name})\n" +
-                 $"| Level: {string.Format("{0:d2}", Level)}" +
-                 $"| Health: {string.Format("{0:d3}", Health)}" +
-                 $"| Action Die: {Dice[Dice.Count-1].GetType().Name}| Desciption: {Description}\n";
+                $"| Level: {string.Format("{0:d2}", Level)}\n" +
+                $"| Health: {string.Format("{0:d3}", Health)}\n" +
+                $"| Action Die: {Dice[Dice.Count - 1].GetType().Name}\n" +
+                $"| Desciption: {Description}\n";
+        }
+        public override string ToString()
+        {
+            return $"Name: {Name} ({GetType().Name})";
+        }
+
+        public virtual string Move()
+        {
+            return $"{Name} moves forward.";
         }
     }
 }
