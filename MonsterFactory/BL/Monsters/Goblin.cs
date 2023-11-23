@@ -15,7 +15,7 @@ namespace TheMonsterFactory.BL.Monsters
 
         public override int Attack(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(Level);
+            int amount = Die.Roll(Level);
             description = $"{Name} swipes with its claws for {amount}!";
             return amount;
         }

@@ -14,15 +14,15 @@ namespace TheMonsterFactory.BL.Monsters
 
         public int HealOthers(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(1 * (Level / 6));
+            int amount = Die.Roll(1 * (Level / 3));
             description = $"{Name} heals each of the other monsters for {amount} points!";
 
             return amount;
         }
 
-        public int HealSelf(out string description)
+        public int Heal(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(Level);
+            int amount = Die.Roll(Level);
             description = $"{Name} heals itself for {amount} points!";
 
             return amount;
@@ -35,9 +35,9 @@ namespace TheMonsterFactory.BL.Monsters
             return 1 * Level;
         }
 
-        public override string Move()
+        public override string Defend()
         {
-            return $"{Name} hovers ominously.";
+            return $"{Name} becomes translucent and hovers ominously.";
         }
     }
 }

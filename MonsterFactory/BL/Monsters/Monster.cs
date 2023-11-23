@@ -16,7 +16,7 @@ namespace TheMonsterFactory.BL.Monsters
         public virtual int Attack(out string description)
         {
             description = $"{Name} attacks!";
-            return Dice[Dice.Count - 1].Roll(Level);
+            return Die.Roll(Level);
         }
     }
 }

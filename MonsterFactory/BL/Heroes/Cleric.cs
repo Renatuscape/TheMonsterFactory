@@ -13,16 +13,16 @@ namespace TheMonsterFactory.BL.Heroes
 
         public int HealOthers(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(1 * (Level / 3)) + Level;
+            int amount = Die.Roll(1 * (Level / 3)) + Level;
             description = $"{Name} heals each of their friends for {amount} points!";
 
             return amount;
         }
 
-        public int HealSelf(out string description)
+        public int Heal(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(Level);
-            description = $"{Name} heals themselves for {amount} points!";
+            int amount = Die.Roll(Level);
+            description = $"{Name} heals the target for {amount} points!";
 
             return amount;
         }
@@ -35,17 +35,14 @@ namespace TheMonsterFactory.BL.Heroes
             return amount;
         }
 
-        public override string Move()
+        public override string Defend()
         {
             return $"{Name} stays at a safe distance.";
         }
         public override void UpdateHealth()
         {
             int healthBoost = 0;
-            foreach (Die die in Dice)
-            {
-                healthBoost += die.Roll(Level);
-            }
+            healthBoost += Die.Roll(Level);
             Health += Convert.ToInt32(healthBoost * 0.5f);
 
             if (Health < 2)
