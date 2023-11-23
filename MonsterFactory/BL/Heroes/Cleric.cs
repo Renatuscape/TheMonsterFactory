@@ -13,7 +13,7 @@ namespace TheMonsterFactory.BL.Heroes
 
         public int HealOthers(out string description)
         {
-            int amount = Dice[Dice.Count - 1].Roll(1 * (Level / 6));
+            int amount = Dice[Dice.Count - 1].Roll(1 * (Level / 3)) + Level;
             description = $"{Name} heals each of their friends for {amount} points!";
 
             return amount;

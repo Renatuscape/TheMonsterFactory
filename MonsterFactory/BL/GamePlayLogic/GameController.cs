@@ -34,7 +34,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
         public static string HealOthers(IHeal healer, List<Creature> party)
         {
             string healingDescription;
-            int healingAmount = healer.HealSelf(out healingDescription);
+            int healingAmount = healer.HealOthers(out healingDescription);
 
             foreach (Creature creature in party)
             {

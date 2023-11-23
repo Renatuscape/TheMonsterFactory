@@ -43,11 +43,10 @@ namespace TheMonsterFactory.BL.GamePlay
 
                     textManager.WriteLine($"{hero}: Choose your action");
 
-                    textManager.WriteLine(" - attack"); //only attack is supported as of now
-                    /*foreach (string action in hero.ActionList)
+                    foreach (string action in hero.ActionList)
                     {
                         textManager.WriteLine(" - " + action);
-                    }*/
+                    }
                     string choice = textManager.ReadLine();
 
                     if (choice.ToLower() == "attack")
@@ -67,6 +66,43 @@ namespace TheMonsterFactory.BL.GamePlay
                                 textManager.WriteLine($"{hero} levelled up!");
                             }
                         }
+                    }
+                    else if (choice.ToLower() == "heal self")
+                    {
+                        IHeal healer = (IHeal)hero;
+
+                        textManager.WriteLine(GameController.HealSelf(healer, hero));
+
+                        if (random.Next(0, 100) > 40)
+                        {
+                            hero.LevelUp();
+                            textManager.WriteLine($"{hero} levelled up!");
+                        }
+                    }
+                    else if (choice.ToLower() == "heal other" || choice.ToLower() == "heal others")
+                    {
+                        IHeal healer = (IHeal)hero;
+                        List<Creature> targetList = new();
+
+                        foreach (Hero partyMember in HeroList)
+                        {
+                            if (partyMember is not IHeal)
+                            {
+                                targetList.Add(partyMember);
+                            }
+                        }
+
+                        textManager.WriteLine(GameController.HealOthers(healer, targetList));
+
+                        if (random.Next(0, 100) > 25)
+                        {
+                            hero.LevelUp();
+                            textManager.WriteLine($"{hero} levelled up!");
+                        }
+                    }
+                    else
+                    {
+                        textManager.WriteLine($"{hero} does not understand the command.");
                     }
                     textManager.ContinueAfterAnyKey();
                 }
