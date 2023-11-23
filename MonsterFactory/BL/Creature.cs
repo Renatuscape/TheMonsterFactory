@@ -7,7 +7,8 @@ namespace TheMonsterFactory.BL
         public string Name { get; }
         public int Health { get; set; }
         public int Level { get; set; } = 1;
-        public List<Die> Dice { get; set; } = new();
+        public Die Die { get; set; }
+        public bool IsDefending { get; set; }
         public string Description { get; set; } = string.Empty;
         public List<string> ActionList { get; set; } = new()
         {
@@ -18,7 +19,7 @@ namespace TheMonsterFactory.BL
         {
             Name = name;
             Level = 0;
-            Dice.Add(new D4());
+            Die = new D4();
             UpdateHealth();
 
             for (int i = 0; i < level; i++)
@@ -29,10 +30,7 @@ namespace TheMonsterFactory.BL
 
         public virtual void UpdateHealth()
         {
-            foreach (Die die in Dice)
-            {
-                Health += die.Roll(Level) + Level;
-            }
+            Health += Die.Roll(Level) + Level;
         }
 
         public virtual void LevelUp()
@@ -43,19 +41,19 @@ namespace TheMonsterFactory.BL
 
                 if (Level >= 18)
                 {
-                    Dice.Add(new D12());
+                    Die = new D12();
                 }
                 else if (Level >= 14)
                 {
-                    Dice.Add(new D10());
+                    Die = new D10();
                 }
                 else if (Level >= 10)
                 {
-                    Dice.Add(new D8());
+                    Die = new D8();
                 }
                 else if (Level >= 6)
                 {
-                    Dice.Add(new D6());
+                    Die = new D6();
                 }
             }
             UpdateHealth();
@@ -66,17 +64,23 @@ namespace TheMonsterFactory.BL
             return $"Name: {Name} ({GetType().Name})\n" +
                 $"| Level: {string.Format("{0:d2}", Level)}\n" +
                 $"| Health: {string.Format("{0:d3}", Health)}\n" +
-                $"| Action Die: {Dice[Dice.Count - 1].GetType().Name}\n" +
+                $"| Action Die: {Die.GetType().Name}\n" +
                 $"| Desciption: {Description}\n";
+        }
+        public virtual string ShortStats()
+        {
+            return $"Name: {Name} (Lv.{Level} {GetType().Name})\n" +
+                    $"HP: {Health} Action Die: {Die.GetType().Name}";
         }
         public override string ToString()
         {
             return $"{Name} ({GetType().Name})";
         }
 
-        public virtual string Move()
+        public virtual string Defend()
         {
-            return $"{Name} moves forward.";
+            IsDefending = true;
+            return $"{Name} takes a defensive stance.";
         }
 
         public virtual List<string> GetActionList()
