@@ -10,7 +10,7 @@ using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlay
 {
-    public class NewGame
+    public partial class NewGame
     {
         public List<Hero> HeroList;
         public List<Monster> MonsterList;
@@ -51,27 +51,19 @@ namespace TheMonsterFactory.BL.GamePlay
 
                     if (choice.ToLower() == "attack")
                     {
-                        Monster target = MonsterList[0];
-
-                        textManager.WriteLine(GameController.Attack(hero, MonsterList[0]));
-
-                        if (target.Health <= 0)
-                        {
-                            textManager.WriteLine($"{target} was killed!");
-                            MonsterList.Remove(target);
-
-                            if (random.Next(0, 100) > 25)
-                            {
-                                hero.LevelUp();
-                                textManager.WriteLine($"{hero} levelled up!");
-                            }
-                        }
+                        int target = Targeting.EnemyPicker(textManager, MonsterList);
+                        HeroAttack(hero, MonsterList, target, textManager);
                     }
-                    else if (choice.ToLower() == "heal self")
+                    else if (choice.ToLower() == "defend")
+                    {
+                        textManager.WriteLine(GameController.Defend(hero));
+                    }
+                    else if (choice.ToLower() == "heal")
                     {
                         IHeal healer = (IHeal)hero;
+                        Hero target = HeroList[Targeting.AllyPicker(textManager, HeroList)];
 
-                        textManager.WriteLine(GameController.HealSelf(healer, hero));
+                        textManager.WriteLine(GameController.Heal(healer, target));
 
                         if (random.Next(0, 100) > 40)
                         {
@@ -79,7 +71,7 @@ namespace TheMonsterFactory.BL.GamePlay
                             textManager.WriteLine($"{hero} levelled up!");
                         }
                     }
-                    else if (choice.ToLower() == "heal other" || choice.ToLower() == "heal others")
+                    else if (choice.ToLower() == "heal many" || choice.ToLower() == "heal others")
                     {
                         IHeal healer = (IHeal)hero;
                         List<Creature> targetList = new();
@@ -127,7 +119,7 @@ namespace TheMonsterFactory.BL.GamePlay
                 if (HeroList.Count > 0)
                 {
                     monsterLevel++;
-                    playerLevel = random.Next(1, monsterLevel < 4 ? monsterLevel : monsterLevel-3);
+                    playerLevel = random.Next(1, monsterLevel < 4 ? monsterLevel : monsterLevel - 3);
                     HeroChecker.HeroNumerCheck(ref HeroList, playerLevel, textManager);
                     MonsterChecker.MonsterNumberCheck(ref MonsterList, monsterLevel, textManager);
                 }
@@ -137,6 +129,26 @@ namespace TheMonsterFactory.BL.GamePlay
             {
                 textManager.WriteLine("Your heroes are all dead. GAME OVER.");
                 textManager.ContinueAfterAnyKey();
+            }
+        }
+        
+        public static void HeroAttack(Hero hero, List<Monster> targetList, int targetNumber, ITextManagement textManager)
+        {
+            Random random = new();
+            Monster target = targetList[targetNumber];
+
+            textManager.WriteLine(GameController.Attack(hero, target));
+
+            if (target.Health <= 0)
+            {
+                textManager.WriteLine($"{target} was killed!");
+                targetList.Remove(target);
+
+                if (random.Next(0, 100) > 25)
+                {
+                    hero.LevelUp();
+                    textManager.WriteLine($"{hero} levelled up!");
+                }
             }
         }
 

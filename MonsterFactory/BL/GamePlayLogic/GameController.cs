@@ -22,6 +22,11 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             return attackDescription;
         }
 
+        public static string Defend(Creature defender)
+        {
+            return defender.Defend();
+        }
+
         public static string Heal(IHeal healer, Creature creature)
         {
             string healingDescription;

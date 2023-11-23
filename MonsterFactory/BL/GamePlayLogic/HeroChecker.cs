@@ -30,7 +30,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic
                 else { newHero = heroMaker.CreateCleric(playerLevel, input); }
 
                 heroList.Add(newHero);
-                textManager.WriteLine($"{input} ({newHero.GetType().Name}) has joined the party.");
+                textManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
+                textManager.WriteLine(newHero.ShortStats());
                 textManager.ContinueAfterAnyKey();
             }
 

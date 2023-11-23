@@ -7,8 +7,8 @@ namespace TheMonsterFactory.BL.Heroes
         public Cleric(string name, int level) : base(name, level)
         {
             Description = "A loyal friend with healing magic.";
-            ActionList.Add("Heal self");
-            ActionList.Add("Heal others");
+            ActionList.Add("Heal");
+            ActionList.Add("Heal Many");
         }
 
         public int HealOthers(out string description)
