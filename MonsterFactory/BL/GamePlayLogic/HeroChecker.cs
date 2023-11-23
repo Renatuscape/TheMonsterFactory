@@ -1,20 +1,21 @@
-﻿using TheMonsterFactory.BL.Heroes;
+﻿using TheMonsterFactory.BL.GamePlay;
+using TheMonsterFactory.BL.Heroes;
 
 namespace TheMonsterFactory.BL.GamePlayLogic
 {
     public static class HeroChecker
     {
         static HeroMaker heroMaker = new HeroMaker();
-        public static void HeroNumerCheck(ref List<Hero> heroList, int playerLevel, ITextManagement textManager)
+        public static void HeroNumerCheck(GameData gameData)
         {
-            textManager.WriteLine("\nSummoning phase!");
-            textManager.ContinueAfterAnyKey();
+            gameData.TextManager.WriteLine("\nSummoning phase!");
+            gameData.TextManager.ContinueAfterAnyKey();
 
-            while (heroList.Count < 4)
+            while (gameData.HeroList.Count < 4)
             {
                 bool hasCleric = false;
 
-                foreach (Hero hero in heroList)
+                foreach (Hero hero in gameData.HeroList)
                 {
                     if (hero is Cleric)
                     {
@@ -22,26 +23,26 @@ namespace TheMonsterFactory.BL.GamePlayLogic
                     }
                 }
 
-                textManager.Write("\nCall on a hero by name: ");
-                string input = textManager.ReadLine() ?? "John";
+                gameData.TextManager.Write("\nCall on a hero by name: ");
+                string input = gameData.TextManager.ReadLine() ?? "John";
                 Hero newHero;
 
-                if (hasCleric) { newHero = heroMaker.Create(playerLevel, input); }
-                else { newHero = heroMaker.CreateCleric(playerLevel, input); }
+                if (hasCleric) { newHero = heroMaker.Create(gameData.PlayerLevel, input); }
+                else { newHero = heroMaker.CreateCleric(gameData.PlayerLevel, input); }
 
-                heroList.Add(newHero);
-                textManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
-                textManager.WriteLine(newHero.ShortStats());
-                textManager.ContinueAfterAnyKey();
+                gameData.HeroList.Add(newHero);
+                gameData.TextManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
+                gameData.TextManager.WriteLine(newHero.ShortStats());
+                gameData.TextManager.ContinueAfterAnyKey();
             }
 
-            textManager.WriteLine("\nPARTY ROSTER:\n");
+            gameData.TextManager.WriteLine("\nPARTY ROSTER:\n");
 
-            foreach (Hero hero in heroList)
+            foreach (Hero hero in gameData.HeroList)
             {
-                textManager.WriteLine(hero.FullStats());
+                gameData.TextManager.WriteLine(hero.FullStats());
             }
-            textManager.ContinueAfterAnyKey();
+            gameData.TextManager.ContinueAfterAnyKey();
         }
     }
 }

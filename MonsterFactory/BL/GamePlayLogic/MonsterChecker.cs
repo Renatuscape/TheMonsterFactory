@@ -1,24 +1,25 @@
-﻿using TheMonsterFactory.BL.Monsters;
+﻿using TheMonsterFactory.BL.GamePlay;
+using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlayLogic
 {
     public static class MonsterChecker
     {
         static MonsterMaker monsterMaker = new MonsterMaker();
-        public static void MonsterNumberCheck(ref List<Monster> monsterList, int monsterLevel, ITextManagement textManager)
+        public static void MonsterNumberCheck(GameData gameData)
         {
 
-            while (monsterList.Count < 4)
+            while (gameData.MonsterList.Count < 4)
             {
-                monsterList.Add(monsterMaker.Create(monsterLevel));
+                gameData.MonsterList.Add(monsterMaker.Create(gameData.MonsterLevel));
             }
-            textManager.WriteLine("\nENEMY ATTACKERS\n");
+            gameData.TextManager.WriteLine("\nENEMY ATTACKERS\n");
 
-            foreach (var monster in monsterList)
+            foreach (var monster in gameData.MonsterList)
             {
-                textManager.WriteLine(monster.FullStats());
+                gameData.TextManager.WriteLine(monster.FullStats());
             }
-            textManager.ContinueAfterAnyKey();
+            gameData.TextManager.ContinueAfterAnyKey();
         }
     }
 }
