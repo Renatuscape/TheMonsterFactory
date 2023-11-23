@@ -22,10 +22,10 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             return attackDescription;
         }
 
-        public static string HealSelf(IHeal healer, Creature creature)
+        public static string Heal(IHeal healer, Creature creature)
         {
             string healingDescription;
-            int healingAmount = healer.HealSelf(out healingDescription);
+            int healingAmount = healer.Heal(out healingDescription);
             creature.Health += healingAmount;
 
             return healingDescription;
