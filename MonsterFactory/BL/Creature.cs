@@ -69,8 +69,7 @@ namespace TheMonsterFactory.BL
         }
         public virtual string ShortStats()
         {
-            return $"Name: {Name} (Lv.{Level} {GetType().Name})\n" +
-                    $"HP: {Health} Action Die: {Die.GetType().Name}";
+            return $"Name: {Name} (Lv.{Level} {GetType().Name}) HP: {Health}";
         }
         public override string ToString()
         {
