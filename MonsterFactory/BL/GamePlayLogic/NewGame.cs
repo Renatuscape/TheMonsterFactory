@@ -10,128 +10,139 @@ using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlay
 {
-    public partial class NewGame
+    public class NewGame
     {
-        public List<Hero> HeroList;
-        public List<Monster> MonsterList;
-        public int monsterLevel = 1;
-        public int playerLevel = 1;
         public NewGame(ITextManagement textManager)
         {
-            HeroList = new();
-            MonsterList = new();
+            GameData gameData = new(textManager);
+
             textManager.WriteLine(" *** WELCOME TO THE MONSTER FACTORY *** ");
-            HeroChecker.HeroNumerCheck(ref HeroList, playerLevel, textManager);
-            MonsterChecker.MonsterNumberCheck(ref MonsterList, monsterLevel, textManager);
-            Round(textManager);
+
+            HeroChecker.HeroNumerCheck(gameData);
+            MonsterChecker.MonsterNumberCheck(gameData);
+
+            while (gameData.HeroList.Count > 0)
+            {
+                HeroRound(gameData);
+                MonsterRound(gameData);
+                EndRound(gameData);
+            }
+
+            textManager.WriteLine(" *** Goodbye! *** ");
         }
 
-        public void Round(ITextManagement textManager)
+        public void HeroRound(GameData gameData)
         {
             Random random = new();
+            gameData.TextManager.WriteLine("Heroes' Phase!");
 
-            while (HeroList.Count > 0)
+            foreach (Hero hero in gameData.HeroList)
             {
-                textManager.WriteLine("Combat phase!");
-
-                foreach (Hero hero in HeroList)
+                if (gameData.MonsterList.Count <= 0)
                 {
-                    if (MonsterList.Count <= 0)
-                    {
-                        break;
-                    }
-
-                    textManager.WriteLine($"{hero}: Choose your action");
-
-                    foreach (string action in hero.ActionList)
-                    {
-                        textManager.WriteLine(" - " + action);
-                    }
-                    string choice = textManager.ReadLine();
-
-                    if (choice.ToLower() == "attack")
-                    {
-                        int target = Targeting.EnemyPicker(textManager, MonsterList);
-                        HeroAttack(hero, MonsterList, target, textManager);
-                    }
-                    else if (choice.ToLower() == "defend")
-                    {
-                        textManager.WriteLine(GameController.Defend(hero));
-                    }
-                    else if (choice.ToLower() == "heal")
-                    {
-                        IHeal healer = (IHeal)hero;
-                        Hero target = HeroList[Targeting.AllyPicker(textManager, HeroList)];
-
-                        textManager.WriteLine(GameController.Heal(healer, target));
-
-                        if (random.Next(0, 100) > 40)
-                        {
-                            hero.LevelUp();
-                            textManager.WriteLine($"{hero} levelled up!");
-                        }
-                    }
-                    else if (choice.ToLower() == "heal many" || choice.ToLower() == "heal others")
-                    {
-                        IHeal healer = (IHeal)hero;
-                        List<Creature> targetList = new();
-
-                        foreach (Hero partyMember in HeroList)
-                        {
-                            if (partyMember is not IHeal)
-                            {
-                                targetList.Add(partyMember);
-                            }
-                        }
-
-                        textManager.WriteLine(GameController.HealOthers(healer, targetList));
-
-                        if (random.Next(0, 100) > 25)
-                        {
-                            hero.LevelUp();
-                            textManager.WriteLine($"{hero} levelled up!");
-                        }
-                    }
-                    else
-                    {
-                        textManager.WriteLine($"{hero} does not understand the command.");
-                    }
-                    textManager.ContinueAfterAnyKey();
-                }
-                foreach (Monster monster in MonsterList)
-                {
-                    if (HeroList.Count < 1)
-                    {
-                        break;
-                    }
-                    Hero target = HeroList[random.Next(0, HeroList.Count)];
-                    textManager.WriteLine($"{monster} targets {target}.");
-                    textManager.WriteLine(GameController.Attack(monster, target));
-
-                    if (target.Health <= 0)
-                    {
-                        textManager.WriteLine($"{target} died!");
-                        HeroList.Remove(target);
-                    }
-                    textManager.ContinueAfterAnyKey();
+                    break;
                 }
 
-                if (HeroList.Count > 0)
+                gameData.TextManager.WriteLine($"{hero}: Choose your action");
+
+                foreach (string action in hero.ActionList)
                 {
-                    monsterLevel++;
-                    playerLevel = random.Next(1, monsterLevel < 4 ? monsterLevel : monsterLevel - 3);
-                    HeroChecker.HeroNumerCheck(ref HeroList, playerLevel, textManager);
-                    MonsterChecker.MonsterNumberCheck(ref MonsterList, monsterLevel, textManager);
+                    gameData.TextManager.WriteLine(" - " + action);
                 }
+                string choice = gameData.TextManager.ReadLine();
+
+                if (choice.ToLower() == "attack")
+                {
+                    int target = Targeting.EnemyPicker(gameData);
+                    HeroAttack(hero, gameData.MonsterList, target, gameData.TextManager);
+                }
+                else if (choice.ToLower() == "defend")
+                {
+                    gameData.TextManager.WriteLine(GameController.Defend(hero));
+                }
+                else if (choice.ToLower() == "heal")
+                {
+                    IHeal healer = (IHeal)hero;
+                    Hero target = gameData.HeroList[Targeting.AllyPicker(gameData)];
+
+                    gameData.TextManager.WriteLine(GameController.Heal(healer, target));
+
+                    if (random.Next(0, 100) > 40)
+                    {
+                        hero.LevelUp();
+                        gameData.TextManager.WriteLine($"{hero} levelled up!");
+                    }
+                }
+                else if (choice.ToLower() == "heal many" || choice.ToLower() == "heal others")
+                {
+                    IHeal healer = (IHeal)hero;
+                    List<Creature> targetList = new();
+
+                    foreach (Hero partyMember in gameData.HeroList)
+                    {
+                        if (partyMember is not IHeal)
+                        {
+                            targetList.Add(partyMember);
+                        }
+                    }
+
+                    gameData.TextManager.WriteLine(GameController.HealOthers(healer, targetList));
+
+                    if (random.Next(0, 100) > 25)
+                    {
+                        hero.LevelUp();
+                        gameData.TextManager.WriteLine($"{hero} levelled up!");
+                    }
+                }
+                else
+                {
+                    gameData.TextManager.WriteLine($"{hero} does not understand the command.");
+                }
+                gameData.TextManager.ContinueAfterAnyKey();
             }
 
-            if (HeroList.Count <= 0)
+        }
+
+        public void MonsterRound(GameData gameData)
+        {
+            Random random = new();
+            gameData.TextManager.WriteLine("Monsters' Phase!");
+            foreach (Monster monster in gameData.MonsterList)
             {
-                textManager.WriteLine("Your heroes are all dead. GAME OVER.");
-                textManager.ContinueAfterAnyKey();
+                if (gameData.HeroList.Count < 1)
+                {
+                    break;
+                }
+                Hero target = gameData.HeroList[random.Next(0, gameData.HeroList.Count)];
+                gameData.TextManager.WriteLine($"{monster} targets {target}.");
+                gameData.TextManager.WriteLine(GameController.Attack(monster, target));
+
+                if (target.Health <= 0)
+                {
+                    gameData.TextManager.WriteLine($"{target} died!");
+                    gameData.HeroList.Remove(target);
+                }
+                gameData.TextManager.ContinueAfterAnyKey();
             }
         }
-        
+
+        public void EndRound(GameData gameData)
+        {
+            Random random = new();
+            if (gameData.HeroList.Count <= 0)
+            {
+                gameData.TextManager.WriteLine("Your heroes are all dead. GAME OVER.");
+                gameData.TextManager.ContinueAfterAnyKey();
+            }
+            else if (gameData.HeroList.Count > 0)
+            {
+                gameData.MonsterLevel++;
+                gameData.PlayerLevel = random.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
+                HeroChecker.HeroNumerCheck(gameData);
+                MonsterChecker.MonsterNumberCheck(gameData);
+            }
+        }
+
         public static void HeroAttack(Hero hero, List<Monster> targetList, int targetNumber, ITextManagement textManager)
         {
             Random random = new();
