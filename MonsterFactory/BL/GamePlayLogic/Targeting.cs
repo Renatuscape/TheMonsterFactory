@@ -5,7 +5,7 @@ namespace TheMonsterFactory.BL.GamePlay
 {
     public static class Targeting
     {
-        public static int AllyPicker(GameData gameData)
+        public static int ChooseAlly(GameData gameData)
         {
             int target = -1;
             for (int i = 0; i < gameData.HeroList.Count; i++)
@@ -32,7 +32,7 @@ namespace TheMonsterFactory.BL.GamePlay
             }
             return target;
         }
-        public static int EnemyPicker(GameData gameData)
+        public static int ChooseEnemy(GameData gameData)
         {
             int target = -1;
 
