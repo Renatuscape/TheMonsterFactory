@@ -62,7 +62,7 @@ namespace TheMonsterFactory.BL.GamePlay
 
                     gameData.TextManager.WriteLine(Actions.Heal(healer, target));
 
-                    if (random.Next(0, 100) > 40)
+                    if (random.Next(0, 100) > 20)
                     {
                         hero.LevelUp();
                         gameData.TextManager.WriteLine($"{hero} levelled up!");
@@ -83,7 +83,7 @@ namespace TheMonsterFactory.BL.GamePlay
 
                     gameData.TextManager.WriteLine(Actions.HealOthers(healer, targetList));
 
-                    if (random.Next(0, 100) > 25)
+                    if (random.Next(0, 100) > 30)
                     {
                         hero.LevelUp();
                         gameData.TextManager.WriteLine($"{hero} levelled up!");
@@ -91,7 +91,8 @@ namespace TheMonsterFactory.BL.GamePlay
                 }
                 else
                 {
-                    gameData.TextManager.WriteLine($"{hero} does not understand the command.");
+                    gameData.TextManager.WriteLine($"{hero} does not understand the command. They attacked the first possible target!");
+                    HeroAttack(hero, gameData.MonsterList, 0, gameData.TextManager);
                 }
                 gameData.TextManager.ContinueAfterAnyKey();
             }
@@ -101,9 +102,10 @@ namespace TheMonsterFactory.BL.GamePlay
         public void MonsterRound(GameData gameData)
         {
             gameData.TextManager.WriteLine("Monsters' Phase!");
-            Creature? target;
             foreach (Monster monster in gameData.MonsterList)
             {
+                Creature? target;
+
                 if (gameData.HeroList.Count < 1)
                 {
                     break;
@@ -114,9 +116,6 @@ namespace TheMonsterFactory.BL.GamePlay
                 {
                     gameData.TextManager.WriteLine(description);
                 }
-                //Hero target = gameData.HeroList[random.Next(0, gameData.HeroList.Count)];
-                // gameData.TextManager.WriteLine($"{monster} targets {target}.");
-                //gameData.TextManager.WriteLine(Actions.Attack(monster, target));
 
                 if (target != null)
                 {
@@ -154,6 +153,11 @@ namespace TheMonsterFactory.BL.GamePlay
         public static void HeroAttack(Hero hero, List<Monster> targetList, int targetNumber, ITextManagement textManager)
         {
             Random random = new();
+            if (targetNumber < 0 || targetNumber >= targetList.Count)
+            {
+                targetNumber = 0;
+                textManager.WriteLine($"{hero} did not understand the directions. Attacking {targetList[targetNumber]}!");
+            }
             Monster target = targetList[targetNumber];
 
             textManager.WriteLine(Actions.Attack(hero, target));
