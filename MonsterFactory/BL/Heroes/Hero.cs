@@ -9,7 +9,7 @@
 
         public virtual int Attack(out string description)
         {
-            int amount = Die.Roll(Level);
+            int amount = Die.Roll(Level) * 2;
             description = $"{Name} swings their sword for {amount} damage!";
             return amount;
         }
