@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.Monsters
 {
@@ -10,6 +11,9 @@ namespace TheMonsterFactory.BL.Monsters
     {
         public Spectre(string name, int level) : base(name, level)
         {
+            MonsterLogic.defendRate = 25;
+            MonsterLogic.logicType = MonsterLogicType.HealLowest;
+            MonsterLogic.selfishness = 5;
         }
 
         public int HealOthers(out string description)
