@@ -13,7 +13,7 @@ namespace TheMonsterFactory.BL
         public List<string> ActionList { get; set; } = new()
         {
             "Attack",
-            "Move"
+            "Defend"
         };
         public Creature(string name, int level)
         {
