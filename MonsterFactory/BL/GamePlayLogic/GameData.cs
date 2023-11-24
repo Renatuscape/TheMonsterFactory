@@ -5,6 +5,7 @@ namespace TheMonsterFactory.BL.GamePlay
 {
     public class GameData
     {
+        public Random randomiser = new Random();
         public ITextManagement TextManager { get; set; }
         public List<Hero> HeroList { get; set; }
         public List<Monster> MonsterList { get; set; }
