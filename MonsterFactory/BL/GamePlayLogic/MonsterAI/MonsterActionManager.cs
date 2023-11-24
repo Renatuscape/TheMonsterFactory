@@ -48,7 +48,16 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                         }
                         else
                         {
+                            if (gameData.randomiser.Next(0,100) > 25)
+                            {
                             actionDescription = Actions.Heal((IHeal)monster, HealLowest(gameData, monster));
+                            }
+                            else
+                            {
+                                target = FindLowestLevelHero(gameData);
+                                actionDescription = Actions.Attack(monster, target);
+                            }
+
                         }
                         break;
                 }
