@@ -4,7 +4,7 @@ namespace TheMonsterFactory.BL
 {
     public abstract class Creature
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public int Health { get; set; }
         public int Level { get; set; } = 1;
         public Die Die { get; set; }
@@ -69,7 +69,7 @@ namespace TheMonsterFactory.BL
         }
         public virtual string ShortStats()
         {
-            return $"Name: {Name} (Lv.{Level} {GetType().Name}) HP: {Health}";
+            return $"{Name} (Lv.{Level} {GetType().Name}) HP: {Health}";
         }
         public override string ToString()
         {
