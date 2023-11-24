@@ -7,7 +7,14 @@ namespace TheMonsterFactory.BL.GamePlayLogic
         public override Monster Create(int level, string name = "")
         {
             name = nameGenerator.GetRandomName();
-            return new Goblin(name, level);
+            if (random.Next(0, 100) > 80)
+            {
+                return new Spectre(name, level);
+            }
+            else
+            {
+                return new Goblin(name, level);
+            }
         }
     }
 }
