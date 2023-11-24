@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TheMonsterFactory.BL.GamePlayLogic;
+﻿using TheMonsterFactory.BL.GamePlayLogic;
+using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 using TheMonsterFactory.BL.Heroes;
 using TheMonsterFactory.BL.Monsters;
 
@@ -53,19 +48,19 @@ namespace TheMonsterFactory.BL.GamePlay
 
                 if (choice.ToLower() == "attack")
                 {
-                    int target = Targeting.EnemyPicker(gameData);
+                    int target = Targeting.ChooseEnemy(gameData);
                     HeroAttack(hero, gameData.MonsterList, target, gameData.TextManager);
                 }
                 else if (choice.ToLower() == "defend")
                 {
-                    gameData.TextManager.WriteLine(GameController.Defend(hero));
+                    gameData.TextManager.WriteLine(Actions.Defend(hero));
                 }
-                else if (choice.ToLower() == "heal")
+                else if (choice.ToLower() == "heal" && hero is IHeal)
                 {
                     IHeal healer = (IHeal)hero;
-                    Hero target = gameData.HeroList[Targeting.AllyPicker(gameData)];
+                    Hero target = gameData.HeroList[Targeting.ChooseAlly(gameData)];
 
-                    gameData.TextManager.WriteLine(GameController.Heal(healer, target));
+                    gameData.TextManager.WriteLine(Actions.Heal(healer, target));
 
                     if (random.Next(0, 100) > 40)
                     {
@@ -73,7 +68,7 @@ namespace TheMonsterFactory.BL.GamePlay
                         gameData.TextManager.WriteLine($"{hero} levelled up!");
                     }
                 }
-                else if (choice.ToLower() == "heal many" || choice.ToLower() == "heal others")
+                else if (choice.ToLower() == "heal many" && hero is IHeal)
                 {
                     IHeal healer = (IHeal)hero;
                     List<Creature> targetList = new();
@@ -86,7 +81,7 @@ namespace TheMonsterFactory.BL.GamePlay
                         }
                     }
 
-                    gameData.TextManager.WriteLine(GameController.HealOthers(healer, targetList));
+                    gameData.TextManager.WriteLine(Actions.HealOthers(healer, targetList));
 
                     if (random.Next(0, 100) > 25)
                     {
@@ -105,22 +100,35 @@ namespace TheMonsterFactory.BL.GamePlay
 
         public void MonsterRound(GameData gameData)
         {
-            Random random = new();
             gameData.TextManager.WriteLine("Monsters' Phase!");
+            Creature? target;
             foreach (Monster monster in gameData.MonsterList)
             {
                 if (gameData.HeroList.Count < 1)
                 {
                     break;
                 }
-                Hero target = gameData.HeroList[random.Next(0, gameData.HeroList.Count)];
-                gameData.TextManager.WriteLine($"{monster} targets {target}.");
-                gameData.TextManager.WriteLine(GameController.Attack(monster, target));
+                MonsterActionManager.ChooseAction(gameData, monster, out var description, out target);
 
-                if (target.Health <= 0)
+                if (!string.IsNullOrWhiteSpace(description))
                 {
-                    gameData.TextManager.WriteLine($"{target} died!");
-                    gameData.HeroList.Remove(target);
+                    gameData.TextManager.WriteLine(description);
+                }
+                //Hero target = gameData.HeroList[random.Next(0, gameData.HeroList.Count)];
+                // gameData.TextManager.WriteLine($"{monster} targets {target}.");
+                //gameData.TextManager.WriteLine(Actions.Attack(monster, target));
+
+                if (target != null)
+                {
+                    if (target.Health <= 0)
+                    {
+                        gameData.TextManager.WriteLine($"{target} died!");
+                        gameData.HeroList.Remove((Hero)target);
+                    }
+                    else
+                    {
+                        gameData.TextManager.WriteLine($"{target} has {target.Health} HP remaining.");
+                    }
                 }
                 gameData.TextManager.ContinueAfterAnyKey();
             }
@@ -148,7 +156,7 @@ namespace TheMonsterFactory.BL.GamePlay
             Random random = new();
             Monster target = targetList[targetNumber];
 
-            textManager.WriteLine(GameController.Attack(hero, target));
+            textManager.WriteLine(Actions.Attack(hero, target));
 
             if (target.Health <= 0)
             {
