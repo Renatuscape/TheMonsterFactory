@@ -13,12 +13,13 @@ namespace TheMonsterFactory.BL.Monsters
         {
             MonsterLogic.defendRate = 25;
             MonsterLogic.logicType = MonsterLogicType.HealLowest;
-            MonsterLogic.selfishness = 5;
+            MonsterLogic.selfishness = 10;
+            Name = "Ra-" + Name;
         }
 
         public int HealOthers(out string description)
         {
-            int amount = Die.Roll(1 * (Level / 3));
+            int amount = Die.Roll(1 * (Level / 3)) + Level;
             description = $"{Name} heals each of the other monsters for {amount} points!";
 
             return amount;
