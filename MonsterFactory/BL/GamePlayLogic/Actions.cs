@@ -6,17 +6,25 @@ using System.Threading.Tasks;
 
 namespace TheMonsterFactory.BL.GamePlayLogic
 {
-    public static class GameController
+    public static class Actions
     {
         public static string Attack(IAttack attacker, Creature defender)
         {
             string attackDescription;
-            int damage = attacker.Attack(out attackDescription);
-            defender.Health += -damage;
-
-            if (defender.Health < 0)
+            if (!defender.IsDefending)
             {
-                defender.Health = 0;
+                int damage = attacker.Attack(out attackDescription);
+                defender.Health += -damage;
+
+                if (defender.Health < 0)
+                {
+                    defender.Health = 0;
+                }
+            }
+            else
+            {
+                attackDescription = $"{defender} shields all damage!";
+                defender.IsDefending = false;
             }
 
             return attackDescription;
