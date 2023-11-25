@@ -11,25 +11,48 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             gameData.TextManager.WriteLine("\nSummoning phase!");
             gameData.TextManager.ContinueAfterAnyKey();
 
+            Hero newHero;
+            string choice;
+
             while (gameData.HeroList.Count < 4)
             {
-                bool hasCleric = false;
-
-                foreach (Hero hero in gameData.HeroList)
+                if (gameData.HeroList.Count > 0)
                 {
-                    if (hero is Cleric)
-                    {
-                        hasCleric = true;
-                    }
+                    gameData.TextManager.WriteLine("Would you like to add a hero to your party?");
+                    gameData.TextManager.WriteLine("[0] Fighter");
+                    gameData.TextManager.WriteLine("[1] Cleric");
+                    gameData.TextManager.WriteLine("[2] Scribe");
+                    gameData.TextManager.WriteLine("[X] No");
+
+                    choice = gameData.TextManager.ReadKey();
+                }
+                else
+                {
+                    choice = "0";
                 }
 
-                gameData.TextManager.Write("\nCall on a hero by name: ");
-                string input = gameData.TextManager.ReadLine() ?? "John";
-                Hero newHero;
-
-                if (hasCleric) { newHero = heroMaker.Create(gameData.PlayerLevel, input); }
-                else { newHero = heroMaker.CreateCleric(gameData.PlayerLevel, input); }
-
+                if (choice == "0")
+                {
+                    gameData.TextManager.Write("\nCall your fighter by name: ");
+                    string input = gameData.TextManager.ReadLine() ?? "";
+                    newHero = heroMaker.CreateFighter(gameData.PlayerLevel, input);
+                }
+                else if (choice == "1")
+                {
+                    gameData.TextManager.Write("\nCall your cleric by name: ");
+                    string input = gameData.TextManager.ReadLine() ?? "";
+                    newHero = heroMaker.CreateCleric(gameData.PlayerLevel, input);
+                }
+                else if (choice == "2")
+                {
+                    gameData.TextManager.Write("\nCall your scribe by name: ");
+                    string input = gameData.TextManager.ReadLine() ?? "";
+                    newHero = heroMaker.CreateScribe(gameData.PlayerLevel, input);
+                }
+                else
+                {
+                    break;
+                }
                 gameData.HeroList.Add(newHero);
                 gameData.TextManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
                 gameData.TextManager.WriteLine(newHero.ShortStats());
