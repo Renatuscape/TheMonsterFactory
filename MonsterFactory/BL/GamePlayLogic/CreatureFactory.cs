@@ -11,6 +11,6 @@ namespace TheMonsterFactory.BL.GamePlayLogic
     {
         public Random random = new();
         public NameGenerator nameGenerator = new();
-        public abstract Creature Create(int level, string name);
+        public abstract Creature CreateFighter(int level, string name);
     }
 }
