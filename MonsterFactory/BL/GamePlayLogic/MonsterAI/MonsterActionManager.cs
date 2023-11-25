@@ -44,7 +44,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                     case MonsterLogicType.HealLowest:
                         if (gameData.randomiser.Next(0,100) > monster.MonsterLogic.selfishness)
                         {
-                            actionDescription = Actions.HealOthers((IHeal)monster, HealMany(gameData, monster));
+                            actionDescription = Actions.HealMany((IHeal)monster, HealMany(gameData, monster));
                         }
                         else
                         {

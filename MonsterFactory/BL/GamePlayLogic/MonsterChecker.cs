@@ -11,7 +11,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
 
             while (gameData.MonsterList.Count < 4)
             {
-                gameData.MonsterList.Add(monsterMaker.Create(gameData.MonsterLevel));
+                gameData.MonsterList.Add(monsterMaker.CreateFighter(gameData.MonsterLevel));
             }
             gameData.TextManager.WriteLine("\nENEMY ATTACKERS\n");
 
