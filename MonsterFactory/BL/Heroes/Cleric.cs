@@ -29,7 +29,7 @@ namespace TheMonsterFactory.BL.Heroes
 
         public override int Attack(out string description)
         {
-            int amount = 1 * Level;
+            int amount = Die.Roll(Level) * 1;
             description = $"{Name} pokes the enemy for {amount} damage.";
 
             return amount;
@@ -43,7 +43,7 @@ namespace TheMonsterFactory.BL.Heroes
         {
             int healthBoost = 0;
             healthBoost += Die.Roll(Level);
-            Health += Convert.ToInt32(healthBoost * 0.5f);
+            Health += Convert.ToInt32(healthBoost * 0.6f);
 
             if (Health < 2)
             {
