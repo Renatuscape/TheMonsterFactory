@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheMonsterFactory.BL
+{
+    public interface IMagicMissile
+    {
+        public int MagicMissile(out string description);
+    }
+}

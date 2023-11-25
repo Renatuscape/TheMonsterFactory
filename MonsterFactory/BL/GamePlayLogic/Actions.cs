@@ -44,7 +44,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             return healingDescription;
         }
 
-        public static string HealOthers(IHeal healer, List<Creature> party)
+        public static string HealMany(IHeal healer, List<Creature> party)
         {
             string healingDescription;
             int healingAmount = healer.HealOthers(out healingDescription);
@@ -58,6 +58,32 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             }
 
             return healingDescription;
+        }
+
+        public static string MagicMissile(IMagicMissile mage, List<Creature> enemies)
+        {
+            string attackDescription;
+            int damageAmount = mage.MagicMissile(out attackDescription);
+
+            foreach (Creature creature in enemies)
+            {
+                if (!creature.IsDefending)
+                {
+                    creature.Health += -damageAmount;
+
+                    if (creature.Health < 0)
+                    {
+                        creature.Health = 0;
+                    }
+                }
+                else
+                {
+                    attackDescription += $"\n{creature} shielded itself against all damage.";
+                }
+
+            }
+
+            return attackDescription;
         }
     }
 }

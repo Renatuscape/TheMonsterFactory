@@ -1,4 +1,5 @@
-﻿using TheMonsterFactory.BL.GamePlayLogic;
+﻿using System;
+using TheMonsterFactory.BL.GamePlayLogic;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 using TheMonsterFactory.BL.Heroes;
 using TheMonsterFactory.BL.Monsters;
@@ -18,6 +19,11 @@ namespace TheMonsterFactory.BL.GamePlay
 
             while (gameData.HeroList.Count > 0)
             {
+                if (gameData.MonsterList.Count <= 0)
+                {
+                    textManager.WriteLine(" You vanquished the enemy! Congratulations are in order. ");
+                    break;
+                }
                 HeroRound(gameData);
                 MonsterRound(gameData);
                 EndRound(gameData);
@@ -81,7 +87,7 @@ namespace TheMonsterFactory.BL.GamePlay
                         }
                     }
 
-                    gameData.TextManager.WriteLine(Actions.HealOthers(healer, targetList));
+                    gameData.TextManager.WriteLine(Actions.HealMany(healer, targetList));
 
                     if (random.Next(0, 100) > 30)
                     {
@@ -89,6 +95,11 @@ namespace TheMonsterFactory.BL.GamePlay
                         gameData.TextManager.WriteLine($"{hero} levelled up!");
                     }
                 }
+                else if (choice.ToLower() == "magic missile" && hero is IMagicMissile)
+                {
+                    HeroSpell(hero, gameData);
+                }
+
                 else
                 {
                     gameData.TextManager.WriteLine($"{hero} does not understand the command. They attacked the first possible target!");
@@ -135,7 +146,6 @@ namespace TheMonsterFactory.BL.GamePlay
 
         public void EndRound(GameData gameData)
         {
-            Random random = new();
             if (gameData.HeroList.Count <= 0)
             {
                 gameData.TextManager.WriteLine("Your heroes are all dead. GAME OVER.");
@@ -143,8 +153,12 @@ namespace TheMonsterFactory.BL.GamePlay
             }
             else if (gameData.HeroList.Count > 0)
             {
-                gameData.MonsterLevel++;
-                gameData.PlayerLevel = random.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
+                if (gameData.randomiser.Next(0, 100) > 60)
+                {
+                    gameData.MonsterLevel++;
+                }
+
+                gameData.PlayerLevel = gameData.randomiser.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
                 HeroChecker.HeroNumerCheck(gameData);
                 MonsterChecker.MonsterNumberCheck(gameData);
             }
@@ -171,6 +185,34 @@ namespace TheMonsterFactory.BL.GamePlay
                 {
                     hero.LevelUp();
                     textManager.WriteLine($"{hero} levelled up!");
+                }
+            }
+        }
+
+        public static void HeroSpell(Hero hero, GameData gameData)
+        {
+            List<Creature> targetList = new();
+
+            foreach (Monster enemy in gameData.MonsterList)
+            {
+                targetList.Add(enemy);
+            }
+
+            IMagicMissile mage = (IMagicMissile)hero;
+            gameData.TextManager.WriteLine(Actions.MagicMissile(mage, targetList));
+
+            for (int i = 0; i < gameData.MonsterList.Count; i++)
+            {
+                if (gameData.MonsterList[i].Health <= 0)
+                {
+                    gameData.TextManager.WriteLine($"{gameData.MonsterList[i]} was killed!");
+                    gameData.MonsterList.Remove(gameData.MonsterList[i]);
+
+                    if (gameData.randomiser.Next(0, 100) > 50)
+                    {
+                        hero.LevelUp();
+                        gameData.TextManager.WriteLine($"{hero} levelled up!");
+                    }
                 }
             }
         }
