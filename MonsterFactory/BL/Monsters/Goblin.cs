@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.CombatMoves;
 
 namespace TheMonsterFactory.BL.Monsters
 {
@@ -10,7 +11,7 @@ namespace TheMonsterFactory.BL.Monsters
     {
         public Goblin(string name, int level) : base(name, level)
         {
-
+            Moves.Find("Claws", MoveList);
         }
 
         public override int Attack(out string description)
