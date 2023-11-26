@@ -31,7 +31,7 @@ namespace TheMonsterFactory.BL.CombatMoves
 
             for (int i = 0; i < move.MaxTargets; i++)
             {
-                if (i >= gameData.MonsterList.Count)
+                if (i >= gameData.HeroList.Count)
                 {
                     gameData.TextManager.WriteLine("No more valid targets available.");
                     break;
@@ -39,7 +39,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 else
                 {
                     int target = ChooseAlly(gameData, activeCreature, move);
-                    targetList.Add(gameData.MonsterList[target]);
+                    targetList.Add(gameData.HeroList[target]);
                 }
             }
             return targetList;
@@ -51,7 +51,7 @@ namespace TheMonsterFactory.BL.CombatMoves
 
             targetList = new(gameData.HeroList);
 
-            if (move.CanTargetSelf)
+            if (!move.CanTargetSelf)
             {
                 targetList.Remove(activeCreature);
             }
@@ -63,7 +63,7 @@ namespace TheMonsterFactory.BL.CombatMoves
             return targetList;
         }
 
-        public static List<Creature> ChooseRandomCreature(GameData gameData, Creature activeCreature, Move move)
+        public static List<Creature> ChooseRandomCreatures(GameData gameData, Creature activeCreature, Move move)
         {
             List<Creature> targetList;
 
@@ -135,38 +135,7 @@ namespace TheMonsterFactory.BL.CombatMoves
             return target;
         }
 
-        public static int ChooseAlly(GameData gameData)
-        {
-            int target = -1;
-            while (target <= -1 || target >= gameData.HeroList.Count)
-            {
-                for (int i = 0; i < gameData.HeroList.Count; i++)
-                {
-                    gameData.TextManager.WriteLine($"{i}: {gameData.HeroList[i].ShortStats()}");
-                }
-
-                string input = gameData.TextManager.ReadKey();
-                gameData.TextManager.WriteLine("");
-
-                if (int.TryParse(input, out var choice))
-                {
-                    target = choice;
-                }
-
-                if (target >= gameData.HeroList.Count || target < 0)
-                {
-                    target = -1;
-                }
-
-                if (target <= -1)
-                {
-                    gameData.TextManager.WriteLine($"Please choose a valid target.");
-                    gameData.TextManager.ContinueAfterAnyKey();
-                }
-            }
-            return target;
-        }
-        public static int ChooseEnemy(GameData gameData)
+        static int ChooseEnemy(GameData gameData)
         {
             int target = -1;
 
