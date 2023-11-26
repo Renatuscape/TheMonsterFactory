@@ -16,7 +16,7 @@ namespace TheMonsterFactory.BL.Monsters
             Name = "Bo-" + Name + "'Th";
             MonsterLogic.defendRate = 5;
             MonsterLogic.selfishness = 100;
-            MonsterLogic.logicType = MonsterLogicType.TargetHighest;
+            MonsterLogic.logicType = MonsterLogicType.AttackHighestLevel;
 
             Moves.Find("SweepingTentacle", MoveList);
             Moves.Find("Cure", MoveList);

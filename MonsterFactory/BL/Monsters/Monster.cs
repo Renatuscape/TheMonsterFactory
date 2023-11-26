@@ -15,7 +15,7 @@ namespace TheMonsterFactory.BL.Monsters
         {
             Description = "A nasty little trickster.";
             MonsterLogic.defendRate = 10;
-            MonsterLogic.logicType = MonsterLogicType.TargetHighest;
+            MonsterLogic.logicType = MonsterLogicType.AttackHighestLevel;
             Moves.Find("Claws", MoveList);
         }
 

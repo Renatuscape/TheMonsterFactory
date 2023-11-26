@@ -13,7 +13,7 @@ namespace TheMonsterFactory.BL.Monsters
         public Spectre(string name, int level) : base(name, level)
         {
             MonsterLogic.defendRate = 25;
-            MonsterLogic.logicType = MonsterLogicType.HealLowest;
+            MonsterLogic.logicType = MonsterLogicType.AidLowestHealth;
             MonsterLogic.selfishness = 10;
             Name = "Ra-" + Name;
             BaseCost = 15;
