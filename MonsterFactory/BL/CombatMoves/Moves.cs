@@ -61,12 +61,20 @@
             CureAll.DiceMultiplier = 0.35f;
             All.Add(CureAll);
 
-            Move MagicMissile = new("Magic Missile", "Strikes the enemies with magic missiles.");
+            Move MagicMissile = new("Magic Missile", "Strikes the targets with magic missiles.");
             MagicMissile.MoveType = MoveType.DamageMagical;
             MagicMissile.MaxTargets = 4;
             MagicMissile.IsRandomTarget = true;
             MagicMissile.DiceMultiplier = 0.35f;
             All.Add(MagicMissile);
+
+            Move SweepingTentacle = new("Sweeping Tentacle", "Sweeps across the field with a long tentacle.");
+            SweepingTentacle.MoveType = MoveType.DamageMagical;
+            SweepingTentacle.MaxTargets = 3;
+            SweepingTentacle.IsRandomTarget = true;
+            SweepingTentacle.MissChance = 25;
+            SweepingTentacle.DiceMultiplier = 0.5f;
+            All.Add(SweepingTentacle);
         }
     }
 }
