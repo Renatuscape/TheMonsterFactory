@@ -4,13 +4,13 @@ namespace TheMonsterFactory.BL.GamePlayLogic
 {
     public class HeroMaker : CreatureFactory
     {
-        public override Hero CreateFighter(int level, string name)
+        public override Fighter CreateFighter(int level, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 name = nameGenerator.GetRandomName(true);
             }
-            return new Hero(name, level);
+            return new Fighter(name, level);
         }
 
         public Scribe CreateScribe(int level, string name)
