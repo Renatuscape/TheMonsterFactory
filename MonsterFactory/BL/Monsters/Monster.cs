@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.Monsters
@@ -15,6 +16,7 @@ namespace TheMonsterFactory.BL.Monsters
             Description = "A nasty little trickster.";
             MonsterLogic.defendRate = 10;
             MonsterLogic.logicType = MonsterLogicType.TargetHighest;
+            Moves.Find("Claws", MoveList);
         }
 
         public virtual int Attack(out string description)

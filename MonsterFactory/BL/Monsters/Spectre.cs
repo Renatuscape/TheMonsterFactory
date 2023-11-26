@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.Monsters
@@ -15,6 +16,10 @@ namespace TheMonsterFactory.BL.Monsters
             MonsterLogic.logicType = MonsterLogicType.HealLowest;
             MonsterLogic.selfishness = 10;
             Name = "Ra-" + Name;
+            BaseCost = 15;
+
+            Moves.Find("Cure", MoveList);
+            Moves.Find("Cure All", MoveList);
         }
 
         public int HealOthers(out string description)
