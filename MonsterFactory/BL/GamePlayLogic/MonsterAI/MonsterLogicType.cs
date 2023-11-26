@@ -2,11 +2,14 @@
 {
     public enum MonsterLogicType
     {
-        TargetHighest,
-        TargetLowest,
+        AttackHighestLevel,
+        AttackLowestLevel,
         AttackHealer,
-        HealLowest,
-        HealHighest,
+        AttackCaster,
+        AidLowestHealth,
+        AidHighestHealth,
+        AidLowestLevel,
+        AidHighestLevel,
         HealSelf
     }
 }

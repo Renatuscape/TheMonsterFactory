@@ -29,11 +29,11 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             {
                 switch (monster.MonsterLogic.logicType)
                 {
-                    case MonsterLogicType.TargetHighest:
+                    case MonsterLogicType.AttackHighestLevel:
                         target = FindHighestLevelHero(gameData);
                         actionDescription = Actions.Attack(monster, target);
                         break;
-                    case MonsterLogicType.TargetLowest:
+                    case MonsterLogicType.AttackLowestLevel:
                         target = FindLowestLevelHero(gameData);
                         actionDescription = Actions.Attack(monster, target);
                         break;
@@ -41,7 +41,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                         target = FindHealer(gameData);
                         actionDescription = Actions.Attack(monster, target);
                         break;
-                    case MonsterLogicType.HealLowest:
+                    case MonsterLogicType.AidLowestHealth:
                         if (gameData.randomiser.Next(0,100) > monster.MonsterLogic.selfishness)
                         {
                             actionDescription = Actions.HealMany((IHeal)monster, HealMany(gameData, monster));
