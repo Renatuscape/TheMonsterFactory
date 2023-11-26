@@ -121,7 +121,7 @@ namespace TheMonsterFactory.BL.CombatMoves
 
         static void DeathChecker(GameData gameData)
         {
-            for (int i = 0; i < gameData.HeroList.Count; i++)
+            for (int i = gameData.HeroList.Count - 1; i >= 0; i--)
             {
                 var hero = gameData.HeroList[i];
                 if (hero.Health <= 0)
@@ -131,7 +131,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 }
             }
 
-            for (int i = 0; i < gameData.MonsterList.Count; i++)
+            for (int i = gameData.MonsterList.Count - 1; i >= 0; i--)
             {
                 var monster = gameData.MonsterList[i];
 
