@@ -13,16 +13,21 @@ namespace TheMonsterFactory.BL.GamePlayLogic
 
             Hero newHero;
             string choice;
+            Hero fighter = new("", 1);
+            Cleric cleric = new("", 1);
+            Scribe scribe = new("", 1);
 
             while (gameData.HeroList.Count < 4)
             {
+                bool hasEnoughGold = false;
+
                 if (gameData.HeroList.Count > 0)
                 {
-                    gameData.TextManager.WriteLine("Would you like to add a hero to your party?");
-                    gameData.TextManager.WriteLine("[0] Fighter");
-                    gameData.TextManager.WriteLine("[1] Cleric");
-                    gameData.TextManager.WriteLine("[2] Scribe");
-                    gameData.TextManager.WriteLine("[X] No");
+                    gameData.TextManager.WriteLine($"You have {gameData.Gold} gold. Would you like to add a hero to your party?");
+                    gameData.TextManager.WriteLine($"[0] Fighter ({fighter.BaseCost}x Level gold)");
+                    gameData.TextManager.WriteLine($"[1] Cleric ({cleric.BaseCost}x Level gold)");
+                    gameData.TextManager.WriteLine($"[2] Scribe ({scribe.BaseCost}x Level gold)");
+                    gameData.TextManager.WriteLine($"[X] No");
 
                     choice = gameData.TextManager.ReadKey();
                 }
@@ -53,9 +58,21 @@ namespace TheMonsterFactory.BL.GamePlayLogic
                 {
                     break;
                 }
-                gameData.HeroList.Add(newHero);
-                gameData.TextManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
-                gameData.TextManager.WriteLine(newHero.ShortStats());
+
+                hasEnoughGold = PriceChecker(newHero);
+
+                if (hasEnoughGold)
+                {
+                    gameData.Gold += -newHero.BaseCost;
+                    gameData.HeroList.Add(newHero);
+                    gameData.TextManager.WriteLine($"A new {newHero.GetType().Name} has joined the party.");
+                    gameData.TextManager.WriteLine(newHero.ShortStats());
+                }
+                else
+                {
+                    gameData.TextManager.WriteLine("You do not have enough gold to buy this hero.");
+                }
+
                 gameData.TextManager.ContinueAfterAnyKey();
             }
 
@@ -65,7 +82,17 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             {
                 gameData.TextManager.WriteLine(hero.FullStats());
             }
+            gameData.TextManager.WriteLine($"Gold: {gameData.Gold}");
             gameData.TextManager.ContinueAfterAnyKey();
+
+            bool PriceChecker(Creature hero)
+            {
+                if (gameData.Gold >= hero.BaseCost)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }
