@@ -1,4 +1,5 @@
 ﻿using System;
+using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 using TheMonsterFactory.BL.Heroes;
@@ -13,17 +14,11 @@ namespace TheMonsterFactory.BL.GamePlay
             GameData gameData = new(textManager);
 
             textManager.WriteLine(" *** WELCOME TO THE MONSTER FACTORY *** ");
-
             HeroChecker.HeroNumerCheck(gameData);
             MonsterChecker.MonsterNumberCheck(gameData);
 
-            while (gameData.HeroList.Count > 0)
+            while (gameData.HeroList.Count > 0 && gameData.MonsterList.Count > 0)
             {
-                if (gameData.MonsterList.Count <= 0)
-                {
-                    textManager.WriteLine(" You vanquished the enemy! Congratulations are in order. ");
-                    break;
-                }
                 HeroRound(gameData);
                 MonsterRound(gameData);
                 EndRound(gameData);
@@ -34,8 +29,7 @@ namespace TheMonsterFactory.BL.GamePlay
 
         public void HeroRound(GameData gameData)
         {
-            Random random = new();
-            gameData.TextManager.WriteLine("Heroes' Phase!");
+            gameData.TextManager.WriteLine("Hero Phase!");
 
             foreach (Hero hero in gameData.HeroList)
             {
@@ -44,75 +38,35 @@ namespace TheMonsterFactory.BL.GamePlay
                     break;
                 }
 
-                gameData.TextManager.WriteLine($"{hero}: Choose your action");
-
-                foreach (string action in hero.ActionList)
+                while (true)
                 {
-                    gameData.TextManager.WriteLine(" - " + action);
-                }
-                string choice = gameData.TextManager.ReadLine();
+                    gameData.TextManager.WriteLine($"{hero.ShortStats}\nChoose your action");
+                    int i = 0;
 
-                if (choice.ToLower() == "attack")
-                {
-                    int target = Targeting.ChooseEnemy(gameData);
-                    HeroAttack(hero, gameData.MonsterList, target, gameData.TextManager);
-                }
-                else if (choice.ToLower() == "defend")
-                {
-                    gameData.TextManager.WriteLine(Actions.Defend(hero));
-                }
-                else if (choice.ToLower() == "heal" && hero is IHeal)
-                {
-                    IHeal healer = (IHeal)hero;
-                    Hero target = gameData.HeroList[Targeting.ChooseAlly(gameData)];
-
-                    gameData.TextManager.WriteLine(Actions.Heal(healer, target));
-
-                    if (random.Next(0, 100) > 20)
+                    foreach (Move move in hero.MoveList)
                     {
-                        hero.LevelUp();
-                        gameData.TextManager.WriteLine($"{hero} levelled up!");
+                        gameData.TextManager.WriteLine($"{i} {move.Name}");
+                        i++;
                     }
-                }
-                else if (choice.ToLower() == "heal many" && hero is IHeal)
-                {
-                    IHeal healer = (IHeal)hero;
-                    List<Creature> targetList = new();
-
-                    foreach (Hero partyMember in gameData.HeroList)
+                    string choice = gameData.TextManager.ReadLine();
+                    if (int.TryParse(choice, out int index))
                     {
-                        if (partyMember is not IHeal)
+                        if (index > 0 && index < hero.MoveList.Count)
                         {
-                            targetList.Add(partyMember);
+                            MoveManager.Parse(gameData, hero, hero.MoveList[index]);
+                            break;
                         }
                     }
-
-                    gameData.TextManager.WriteLine(Actions.HealMany(healer, targetList));
-
-                    if (random.Next(0, 100) > 30)
-                    {
-                        hero.LevelUp();
-                        gameData.TextManager.WriteLine($"{hero} levelled up!");
-                    }
-                }
-                else if (choice.ToLower() == "magic missile" && hero is IMagicMissile)
-                {
-                    HeroSpell(hero, gameData);
-                }
-
-                else
-                {
-                    gameData.TextManager.WriteLine($"{hero} does not understand the command. They attacked the first possible target!");
-                    HeroAttack(hero, gameData.MonsterList, 0, gameData.TextManager);
+                    gameData.TextManager.WriteLine($"{hero} does not understand the command. Try again.");
+                    gameData.TextManager.ContinueAfterAnyKey();
                 }
                 gameData.TextManager.ContinueAfterAnyKey();
             }
-
         }
 
         public void MonsterRound(GameData gameData)
         {
-            gameData.TextManager.WriteLine("Monsters' Phase!");
+            gameData.TextManager.WriteLine("Monster Phase!");
             foreach (Monster monster in gameData.MonsterList)
             {
                 Creature? target;
@@ -151,11 +105,19 @@ namespace TheMonsterFactory.BL.GamePlay
                 gameData.TextManager.WriteLine("Your heroes are all dead. GAME OVER.");
                 gameData.TextManager.ContinueAfterAnyKey();
             }
-            else if (gameData.HeroList.Count > 0)
+            else if (gameData.MonsterList.Count <= 0)
             {
-                if (gameData.randomiser.Next(0, 100) > 60)
+                gameData.TextManager.WriteLine(" You vanquished the enemy! Congratulations are in order. ");
+            }
+            else if (gameData.HeroList.Count > 0 && gameData.MonsterList.Count > 0)
+            {
+                if (gameData.randomiser.Next(0, 100) > 30)
                 {
-                    gameData.MonsterLevel++;
+                    gameData.GameRound++;
+                    if (gameData.GameRound % 3 == 0)
+                    {
+                        gameData.MonsterLevel++;
+                    }
                 }
 
                 gameData.PlayerLevel = gameData.randomiser.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
