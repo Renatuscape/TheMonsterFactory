@@ -13,7 +13,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
 
             Hero newHero;
             string choice;
-            Hero fighter = new("", 1);
+            Fighter fighter = new("", 1);
             Cleric cleric = new("", 1);
             Scribe scribe = new("", 1);
 
