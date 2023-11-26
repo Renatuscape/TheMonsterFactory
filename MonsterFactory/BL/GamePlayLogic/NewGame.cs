@@ -72,31 +72,11 @@ namespace TheMonsterFactory.BL.GamePlay
             gameData.TextManager.WriteLine("Monster Phase!");
             foreach (Monster monster in gameData.MonsterList)
             {
-                Creature? target;
-
                 if (gameData.HeroList.Count < 1)
                 {
                     break;
                 }
-                MonsterActionManager.ChooseAction(gameData, monster, out var description, out target);
-
-                if (!string.IsNullOrWhiteSpace(description))
-                {
-                    gameData.TextManager.WriteLine(description);
-                }
-
-                if (target != null)
-                {
-                    if (target.Health <= 0)
-                    {
-                        gameData.TextManager.WriteLine($"{target} died!");
-                        gameData.HeroList.Remove((Hero)target);
-                    }
-                    else
-                    {
-                        gameData.TextManager.WriteLine($"{target} has {target.Health} HP remaining.");
-                    }
-                }
+                MonsterCombatManager.Act(gameData, monster);
                 gameData.TextManager.ContinueAfterAnyKey();
             }
         }
