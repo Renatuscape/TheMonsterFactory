@@ -104,7 +104,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 DistributeXP(gameData, 2 * averageTargetLevel, activeCreature);
             }
         }
-        static int DamageCalculator(Move move, Creature attacker)
+        public static int DamageCalculator(Move move, Creature attacker)
         {
             int damage = 1;
             damage += Convert.ToInt32(attacker.Die.Roll(attacker.Level) * move.DiceMultiplier);
