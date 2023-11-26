@@ -1,15 +1,19 @@
-﻿using TheMonsterFactory.BL.DiceLogic;
+﻿using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL
 {
     public abstract class Creature
     {
+        public int BaseCost { get; set; } = 10;
         public string Name { get; set; }
         public int Health { get; set; }
         public int Level { get; set; } = 1;
+        public int Experience { get; set; }
         public Die Die { get; set; }
         public bool IsDefending { get; set; }
         public string Description { get; set; } = string.Empty;
+        public List<Move> MoveList { get; set; } = new();
         public List<string> ActionList { get; set; } = new()
         {
             "Attack",
@@ -21,6 +25,7 @@ namespace TheMonsterFactory.BL
             Level = 0;
             Die = new D4();
             UpdateHealth();
+            Moves.Find("Defend", MoveList);
 
             for (int i = 0; i < level; i++)
             {
@@ -33,6 +38,18 @@ namespace TheMonsterFactory.BL
             Health += Die.Roll(Level) + Level;
         }
 
+        public virtual void AddXP(int xp, out string description)
+        {
+            description = $"{this} gained {xp} xp.";
+            Experience += xp;
+
+            if (Experience > 10 * Level)
+            {
+                LevelUp();
+                Experience = 0;
+                description += $"\n{this} levelled up to {Level}!";
+            }
+        }
         public virtual void LevelUp()
         {
             if (Level < 20)
@@ -69,7 +86,7 @@ namespace TheMonsterFactory.BL
         }
         public virtual string ShortStats()
         {
-            return $"{Name} (Lv.{Level} {GetType().Name}) HP: {Health}";
+            return $"{Name} (Lv.{Level} {GetType().Name}) HP: {Health}{(IsDefending == false ? null : " (S)")}";
         }
         public override string ToString()
         {
