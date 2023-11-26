@@ -10,8 +10,6 @@ namespace TheMonsterFactory.BL.Heroes
             BaseCost = 15;
 
             Description = "A loyal friend with healing magic.";
-            ActionList.Add("Heal");
-            ActionList.Add("Heal Many");
 
             Moves.Find("Cure", MoveList);
             Moves.Find("Cure All", MoveList);
@@ -29,14 +27,6 @@ namespace TheMonsterFactory.BL.Heroes
         {
             int amount = Die.Roll(Level);
             description = $"{Name} heals the target for {amount} points!";
-
-            return amount;
-        }
-
-        public override int Attack(out string description)
-        {
-            int amount = Die.Roll(Level) * 1;
-            description = $"{Name} pokes the enemy for {amount} damage.";
 
             return amount;
         }

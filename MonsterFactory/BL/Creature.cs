@@ -43,7 +43,7 @@ namespace TheMonsterFactory.BL
             description = $"{this} gained {xp} xp.";
             Experience += xp;
 
-            if (Experience > 10 * Level)
+            if (Experience > 10 * (Level * Level))
             {
                 LevelUp();
                 Experience = 0;

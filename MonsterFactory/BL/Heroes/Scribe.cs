@@ -25,13 +25,6 @@ namespace TheMonsterFactory.BL.Heroes
             }
         }
 
-        public override int Attack(out string description)
-        {
-            int amount = Die.Roll(Level) * 1;
-            description = $"{Name} shoves the enemy for {amount} damage.";
-
-            return amount;
-        }
         public override string Defend()
         {
             return $"{Name} creates a shimmering shield of magic around themselves.";
