@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.CombatMoves;
 
 namespace TheMonsterFactory.BL.Heroes
 {
@@ -10,8 +12,17 @@ namespace TheMonsterFactory.BL.Heroes
     {
         public Scribe(string name, int level) : base(name, level)
         {
+            BaseCost = 20;
+
             Description = "A fragile scholar with arcane powers.";
             ActionList.Add("Magic Missile");
+            Moves.Find("Magic Missile", MoveList);
+            var defend = MoveList.Find(x => x.Name == "Defend");
+
+            if (defend != null)
+            {
+                defend.Description = "Creates a shimmering shield of magic around themselves.";
+            }
         }
 
         public override int Attack(out string description)

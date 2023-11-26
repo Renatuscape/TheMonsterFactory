@@ -1,4 +1,5 @@
-﻿using TheMonsterFactory.BL.DiceLogic;
+﻿using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL.Heroes
 {
@@ -6,9 +7,14 @@ namespace TheMonsterFactory.BL.Heroes
     {
         public Cleric(string name, int level) : base(name, level)
         {
+            BaseCost = 15;
+
             Description = "A loyal friend with healing magic.";
             ActionList.Add("Heal");
             ActionList.Add("Heal Many");
+
+            Moves.Find("Cure", MoveList);
+            Moves.Find("Cure All", MoveList);
         }
 
         public int HealOthers(out string description)

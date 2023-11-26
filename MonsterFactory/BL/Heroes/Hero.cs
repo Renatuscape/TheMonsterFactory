@@ -1,10 +1,13 @@
-﻿namespace TheMonsterFactory.BL.Heroes
+﻿using TheMonsterFactory.BL.CombatMoves;
+
+namespace TheMonsterFactory.BL.Heroes
 {
     public class Hero : Creature, IAttack
     {
         public Hero(string name, int level) : base(name, level)
         {
             Description = "A simple adventurer.";
+            Moves.Find("Iron Sword", MoveList);
         }
 
         public virtual int Attack(out string description)
