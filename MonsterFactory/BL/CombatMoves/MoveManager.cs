@@ -50,7 +50,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 {
                     int damage = DamageCalculator(move, activeCreature);
                     ally.Health += damage;
-                    Write(gameData, $"{ally} was regained {damage} points of health!");
+                    Write(gameData, $"{ally} regains {damage} points of health!");
                 }
 
                 DistributeXP(gameData, 2 * activeCreature.Level, activeCreature);
