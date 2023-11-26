@@ -40,7 +40,7 @@ namespace TheMonsterFactory.BL.GamePlay
 
                 while (true)
                 {
-                    gameData.TextManager.WriteLine($"{hero.ShortStats}\nChoose your action");
+                    gameData.TextManager.WriteLine($"{hero.ShortStats()}\nChoose your action");
                     int i = 0;
 
                     foreach (Move move in hero.MoveList)
@@ -48,10 +48,13 @@ namespace TheMonsterFactory.BL.GamePlay
                         gameData.TextManager.WriteLine($"{i} {move.Name}");
                         i++;
                     }
-                    string choice = gameData.TextManager.ReadLine();
+
+                    string choice = gameData.TextManager.ReadKey();
+                    gameData.TextManager.WriteLine("");
+
                     if (int.TryParse(choice, out int index))
                     {
-                        if (index > 0 && index < hero.MoveList.Count)
+                        if (index >= 0 && index < hero.MoveList.Count)
                         {
                             MoveManager.Parse(gameData, hero, hero.MoveList[index]);
                             break;
@@ -123,31 +126,6 @@ namespace TheMonsterFactory.BL.GamePlay
                 gameData.PlayerLevel = gameData.randomiser.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
                 HeroChecker.HeroNumerCheck(gameData);
                 MonsterChecker.MonsterNumberCheck(gameData);
-            }
-        }
-
-        public static void HeroAttack(Hero hero, List<Monster> targetList, int targetNumber, ITextManagement textManager)
-        {
-            Random random = new();
-            if (targetNumber < 0 || targetNumber >= targetList.Count)
-            {
-                targetNumber = 0;
-                textManager.WriteLine($"{hero} did not understand the directions. Attacking {targetList[targetNumber]}!");
-            }
-            Monster target = targetList[targetNumber];
-
-            textManager.WriteLine(Actions.Attack(hero, target));
-
-            if (target.Health <= 0)
-            {
-                textManager.WriteLine($"{target} was killed!");
-                targetList.Remove(target);
-
-                if (random.Next(0, 100) > 25)
-                {
-                    hero.LevelUp();
-                    textManager.WriteLine($"{hero} levelled up!");
-                }
             }
         }
 
