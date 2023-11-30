@@ -11,7 +11,7 @@ using TheMonsterFactory.BL.Monsters;
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {
     public static class MonsterActionManager
-    {
+    {/*
         public static void ChooseAction(GameData gameData, Monster monster,out string actionDescription, out Creature? target)
         {
             target = null;
@@ -137,6 +137,6 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                 target = FindHighestLevelHero(gameData);
             }
             return target;
-        }
+        }*/
     }
 }
