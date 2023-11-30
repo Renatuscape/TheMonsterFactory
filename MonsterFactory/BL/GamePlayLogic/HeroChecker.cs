@@ -80,7 +80,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
 
             foreach (Hero hero in gameData.HeroList)
             {
-                gameData.TextManager.WriteLine(hero.FullStats());
+                gameData.TextManager.WriteColour(hero.FullStats(), MonsterFactory.UI.ColourTag.Information);
             }
             gameData.TextManager.WriteLine($"Gold: {gameData.Gold}");
             gameData.TextManager.ContinueAfterAnyKey();

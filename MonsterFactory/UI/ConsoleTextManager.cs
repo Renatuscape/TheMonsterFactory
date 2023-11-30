@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MonsterFactory.UI
@@ -32,19 +33,79 @@ namespace MonsterFactory.UI
 
         public void Write(string text)
         {
-            text = Tabulate(text);
-            Console.Write(text);
+            WriteColour(text, ColourTag.Information, false);
         }
 
         public void WriteLine(string text)
         {
-            text = Tabulate(text);
-            Console.WriteLine(text);
+            WriteColour(text, ColourTag.Information);
         }
 
         public string Tabulate(string text)
         {
             return text = "\t" + text.Replace("\n", "\n\t");
+        }
+
+
+        public void WriteColour(string text, ColourTag colourTag, bool isNewLine = true)
+        {
+            text = Tabulate(text);
+            ConsoleColor originalColor = Console.ForegroundColor;
+            MatchCollection matches = Regex.Matches(text, @"\[(.*?)\]");
+            int lastIndex = 0;
+
+            foreach (Match match in matches)
+            {
+                // Print the text before the match
+                Console.Write(text.Substring(lastIndex, match.Index - lastIndex));
+
+                // Set color for text within square brackets
+                Console.ForegroundColor = ColourTagToConsole(colourTag);
+
+                // Write the text within square brackets
+                Console.Write(match.Groups[1].Value);
+
+                // Reset color to the original
+                Console.ForegroundColor = originalColor;
+
+                lastIndex = match.Index + match.Length;
+            }
+
+            // Print any remaining text after the last match
+            if (lastIndex < text.Length)
+            {
+                Console.Write(text.Substring(lastIndex));
+            }
+
+            if (isNewLine)
+            {
+                Console.WriteLine();
+            }
+        }
+
+        static ConsoleColor ColourTagToConsole(ColourTag colourTag)
+        {
+            if (colourTag == ColourTag.Information)
+            {
+                return ConsoleColor.Blue;
+            }
+            else if (colourTag == ColourTag.Alert)
+            {
+                return ConsoleColor.Yellow;
+            }
+            else if (colourTag == ColourTag.Critical)
+            {
+                return ConsoleColor.Red;
+            }
+            else if (colourTag == ColourTag.Success)
+            {
+                return ConsoleColor.Green;
+            }
+            else if (colourTag == ColourTag.Subtle)
+            {
+                return ConsoleColor.DarkGray;
+            }
+            return ConsoleColor.White;
         }
     }
 }

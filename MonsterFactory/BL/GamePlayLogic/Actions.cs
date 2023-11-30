@@ -23,7 +23,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
             }
             else
             {
-                attackDescription = $"{defender} shields all damage!";
+                attackDescription = $"{defender} [shields all damage]!";
                 defender.IsDefending = false;
             }
 
@@ -78,7 +78,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic
                 }
                 else
                 {
-                    attackDescription += $"\n{creature} shielded itself against all damage.";
+                    attackDescription += $"\n{creature} [shielded itself against all damage].";
                 }
 
             }

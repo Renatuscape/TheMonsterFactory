@@ -15,7 +15,6 @@ namespace TheMonsterFactory.BL.Heroes
             BaseCost = 20;
 
             Description = "A fragile scholar with arcane powers.";
-            ActionList.Add("Magic Missile");
             Moves.Find("Magic Missile", MoveList);
         }
 

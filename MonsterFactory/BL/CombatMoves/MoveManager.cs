@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.Heroes;
+using MonsterFactory.UI;
 using TheMonsterFactory.BL.Monsters;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -50,7 +51,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 {
                     int damage = DamageCalculator(move, activeCreature);
                     ally.Health += damage;
-                    Write(gameData, $"{ally} regains {damage} points of health!");
+                    gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health!]", ColourTag.Information);
                 }
 
                 DistributeXP(gameData, 2 * activeCreature.Level, activeCreature);
@@ -78,10 +79,10 @@ namespace TheMonsterFactory.BL.CombatMoves
                 {
                     if (target.IsDefending)
                     {
-                        string defenceText = $"{target} shielded themselves and took no damage.";
+                        string defenceText = $"{target} shielded themselves and [took no damage].";
                         if (move.MoveType == MoveType.DamagePhysical)
                         {
-                            defenceText +=" Their defence broke!";
+                            defenceText +=" Their [defence broke]!";
                             target.IsDefending = false;
                         }
                         Write(gameData, defenceText);
@@ -90,7 +91,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                     {
                         int damage = DamageCalculator(move, activeCreature);
                         target.Health += -damage;
-                        Write(gameData, $"{target} took {damage} damage!");
+                        gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
                         averageTargetLevel += target.Level;
                     }
                 }
@@ -138,7 +139,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 if (monster.Health <= 0)
                 {
                     int prize = monster.BaseCost * monster.Level;
-                    Write(gameData, $"{monster} was killed and dropped {prize} gold.");
+                    gameData.TextManager.WriteColour($"{monster} [was killed and dropped {prize} gold].", ColourTag.Success);
                     foreach (Hero hero in gameData.HeroList)
                     {
                         DistributeXP(gameData, 4 * monster.Level, hero);
@@ -152,7 +153,7 @@ namespace TheMonsterFactory.BL.CombatMoves
         static void DistributeXP(GameData gameData, int xp, Creature hero)
         {
             hero.AddXP(xp, out var description);
-            Write(gameData, description);
+            gameData.TextManager.WriteColour(description, ColourTag.Success);
         }
 
         static void Write(GameData gameData, string text)

@@ -4,6 +4,7 @@ using TheMonsterFactory.BL.GamePlayLogic;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 using TheMonsterFactory.BL.Heroes;
 using TheMonsterFactory.BL.Monsters;
+using MonsterFactory.UI;
 
 namespace TheMonsterFactory.BL.GamePlay
 {
@@ -85,7 +86,7 @@ namespace TheMonsterFactory.BL.GamePlay
         {
             if (gameData.HeroList.Count <= 0)
             {
-                gameData.TextManager.WriteLine("Your heroes are all dead. GAME OVER.");
+                gameData.TextManager.WriteColour("Your heroes are all dead. [GAME OVER].", ColourTag.Alert);
                 gameData.TextManager.ContinueAfterAnyKey();
             }
             else if (gameData.MonsterList.Count <= 0)

@@ -14,11 +14,7 @@ namespace TheMonsterFactory.BL
         public bool IsDefending { get; set; }
         public string Description { get; set; } = string.Empty;
         public List<Move> MoveList { get; set; } = new();
-        public List<string> ActionList { get; set; } = new()
-        {
-            "Attack",
-            "Defend"
-        };
+
         public Creature(string name, int level)
         {
             Name = name;
@@ -40,14 +36,14 @@ namespace TheMonsterFactory.BL
 
         public virtual void AddXP(int xp, out string description)
         {
-            description = $"{this} gained {xp} xp.";
+            description = $"{this} gained [{xp} xp].";
             Experience += xp;
 
             if (Experience > 10 * (Level * Level))
             {
                 LevelUp();
                 Experience = 0;
-                description += $"\n{this} levelled up to {Level}!";
+                description += $"\n{this} [levelled up to {Level}]!";
             }
         }
         public virtual void LevelUp()
@@ -78,30 +74,25 @@ namespace TheMonsterFactory.BL
 
         public virtual string FullStats()
         {
-            return $"Name: {Name} ({GetType().Name})\n" +
-                $"| Level: {string.Format("{0:d2}", Level)}\n" +
-                $"| Health: {string.Format("{0:d3}", Health)}\n" +
-                $"| Action Die: {Die.GetType().Name}\n" +
-                $"| Desciption: {Description}\n";
+            return $"Name: {$"[{Name} ({GetType().Name})]", -20}\n" +
+                $"| Level: {Level, -20}\n" +
+                $"| Health: {Health,-20}\n" +
+                $"| Action Die: {Die.GetType().Name, -20}\n" +
+                $"| Desciption: {Description,-20}\n";
         }
         public virtual string ShortStats()
         {
-            return $"{Name} (Lv.{Level} {GetType().Name}) HP: {Health}{(IsDefending == false ? null : " (S)")}";
+            return $"[{Name} (Lv.{Level} {GetType().Name})] HP: {Health}{(IsDefending == false ? null : " [(S)]")}";
         }
         public override string ToString()
         {
-            return $"{Name} ({GetType().Name})";
+            return $"[{Name} ({GetType().Name})]";
         }
 
         public virtual string Defend()
         {
             IsDefending = true;
-            return $"{Name} takes a defensive stance.";
-        }
-
-        public virtual List<string> GetActionList()
-        {
-            return ActionList;
+            return $"[{Name}] takes a defensive stance.";
         }
     }
 }
