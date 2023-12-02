@@ -2,6 +2,7 @@
 using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.Monsters;
 using MonsterFactory.UI;
+using System.Threading;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {
@@ -31,10 +32,12 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
         {
             Move chosenMove = activeCreature.MoveList[0];
 
-            if (gameData.randomiser.Next(0, 100) < activeCreature.MonsterLogic.defendRate)
+            if (!activeCreature.IsDefending && gameData.randomiser.Next(0, 100) < activeCreature.MonsterLogic.defendRate)
             {
                 return chosenMove;
             }
+
+            //PICK HEALER MOVE
             else if (gameData.randomiser.Next(0, 100) > activeCreature.MonsterLogic.selfishness && activeCreature is IHeal)
             {
                 List<Move> healerMoves = new(activeCreature.MoveList);
@@ -52,9 +55,29 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                     chosenMove = healerMoves[gameData.randomiser.Next(0, healerMoves.Count)];
                 }
             }
+            //PICK CASTER MOVE
+            else if (activeCreature is ICaster)
+            {
+                List<Move> casterMoves = new(activeCreature.MoveList);
+
+                for (int i = casterMoves.Count - 1; i >= 0; i--)
+                {
+                    if (casterMoves[i].MoveType != MoveType.DamageMagical)
+                    {
+                        casterMoves.Remove(casterMoves[i]);
+                    }
+                }
+
+                if (casterMoves.Count > 0)
+                {
+                    chosenMove = casterMoves[gameData.randomiser.Next(0, casterMoves.Count)];
+                }
+            }
+            //PICK ANY MOVE
             else
             {
                 List<Move> damageMoves = new(activeCreature.MoveList);
+
                 for (int i = damageMoves.Count-1; i >= 0; i--)
                 {
                     if (damageMoves[i].MoveType != MoveType.DamageMagical && damageMoves[i].MoveType != MoveType.DamagePhysical)
@@ -121,6 +144,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                 if (hero.Health <= 0)
                 {
                     gameData.TextManager.WriteColour($"{hero} [died].", ColourTag.Critical);
+                    gameData.HeroList.Remove(hero);
                 }
             }
 
