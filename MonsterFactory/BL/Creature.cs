@@ -34,16 +34,17 @@ namespace TheMonsterFactory.BL
             Health += Die.Roll(Level) + Level;
         }
 
-        public virtual void AddXP(int xp, out string description)
+        public virtual void AddXP(int xp, out string xpText, out string? levelUpText)
         {
-            description = $"{this} gained [{xp} xp].";
+            levelUpText = null;
+            xpText = $"{this} gained [{xp} xp].";
             Experience += xp;
 
             if (Experience > 10 * (Level * Level))
             {
                 LevelUp();
                 Experience = 0;
-                description += $"\n{this} [levelled up to {Level}]!";
+                levelUpText = $"{this} reached [level {Level}]!";
             }
         }
         public virtual void LevelUp()
