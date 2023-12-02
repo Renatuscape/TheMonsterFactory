@@ -46,7 +46,7 @@ namespace TheMonsterFactory.BL.GamePlay
 
                     foreach (Move move in hero.MoveList)
                     {
-                        gameData.TextManager.WriteLine($"{i} {move.Name}");
+                        gameData.TextManager.WriteColour($"[{i}] {move.Name}", ColourTag.Information);
                         i++;
                     }
 
@@ -61,7 +61,7 @@ namespace TheMonsterFactory.BL.GamePlay
                             break;
                         }
                     }
-                    gameData.TextManager.WriteLine($"{hero} does not understand the command. Try again.");
+                    gameData.TextManager.WriteColour($"{hero} does not understand the command. Try again.", ColourTag.Alert);
                     gameData.TextManager.ContinueAfterAnyKey();
                 }
                 gameData.TextManager.ContinueAfterAnyKey();
@@ -86,12 +86,12 @@ namespace TheMonsterFactory.BL.GamePlay
         {
             if (gameData.HeroList.Count <= 0)
             {
-                gameData.TextManager.WriteColour("Your heroes are all dead. [GAME OVER].", ColourTag.Alert);
+                gameData.TextManager.WriteColour("Your heroes are all dead. [GAME OVER].", ColourTag.Critical);
                 gameData.TextManager.ContinueAfterAnyKey();
             }
             else if (gameData.MonsterList.Count <= 0)
             {
-                gameData.TextManager.WriteLine(" You vanquished the enemy! Congratulations are in order. ");
+                gameData.TextManager.WriteColour(" [You vanquished the enemy! Congratulations are in order.] ", ColourTag.Success);
             }
             else if (gameData.HeroList.Count > 0 && gameData.MonsterList.Count > 0)
             {
@@ -109,34 +109,5 @@ namespace TheMonsterFactory.BL.GamePlay
                 MonsterChecker.MonsterNumberCheck(gameData);
             }
         }
-
-        public static void HeroSpell(Hero hero, GameData gameData)
-        {
-            List<Creature> targetList = new();
-
-            foreach (Monster enemy in gameData.MonsterList)
-            {
-                targetList.Add(enemy);
-            }
-
-            IMagicMissile mage = (IMagicMissile)hero;
-            gameData.TextManager.WriteLine(Actions.MagicMissile(mage, targetList));
-
-            for (int i = 0; i < gameData.MonsterList.Count; i++)
-            {
-                if (gameData.MonsterList[i].Health <= 0)
-                {
-                    gameData.TextManager.WriteLine($"{gameData.MonsterList[i]} was killed!");
-                    gameData.MonsterList.Remove(gameData.MonsterList[i]);
-
-                    if (gameData.randomiser.Next(0, 100) > 50)
-                    {
-                        hero.LevelUp();
-                        gameData.TextManager.WriteLine($"{hero} levelled up!");
-                    }
-                }
-            }
-        }
-
     }
 }
