@@ -3,10 +3,13 @@
     public enum ColourTag
     {
         Default,
-        Subtle,
         Alert,
         Critical,
+        SmallSuccess,
         Success,
-        Information
+        Information,
+        Emphasis,
+        Subtle,
+        Disabled
     }
 }
