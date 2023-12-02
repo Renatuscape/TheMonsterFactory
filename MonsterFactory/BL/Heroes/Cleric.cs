@@ -14,27 +14,6 @@ namespace TheMonsterFactory.BL.Heroes
             Moves.Find("Cure", MoveList);
             Moves.Find("Cure All", MoveList);
         }
-
-        public int HealOthers(out string description)
-        {
-            int amount = Die.Roll(1 * (Level / 3)) + Level;
-            description = $"{Name} heals each of their friends for {amount} points!";
-
-            return amount;
-        }
-
-        public int Heal(out string description)
-        {
-            int amount = Die.Roll(Level);
-            description = $"{Name} heals the target for {amount} points!";
-
-            return amount;
-        }
-
-        public override string Defend()
-        {
-            return $"{Name} stays at a safe distance.";
-        }
         public override void UpdateHealth()
         {
             int healthBoost = 0;
