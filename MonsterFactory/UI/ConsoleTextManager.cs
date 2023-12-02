@@ -47,9 +47,13 @@ namespace MonsterFactory.UI
         }
 
 
-        public void WriteColour(string text, ColourTag colourTag, bool isNewLine = true)
+        public void WriteColour(string text, ColourTag colourTag, bool isNewLine = true, bool isTabulated = true)
         {
-            text = Tabulate(text);
+            if (isTabulated)
+            {
+                text = Tabulate(text);
+            }
+
             ConsoleColor originalColor = Console.ForegroundColor;
             MatchCollection matches = Regex.Matches(text, @"\[(.*?)\]");
             int lastIndex = 0;
@@ -87,7 +91,7 @@ namespace MonsterFactory.UI
         {
             if (colourTag == ColourTag.Information)
             {
-                return ConsoleColor.Blue;
+                return ConsoleColor.Cyan;
             }
             else if (colourTag == ColourTag.Alert)
             {
@@ -101,7 +105,19 @@ namespace MonsterFactory.UI
             {
                 return ConsoleColor.Green;
             }
+            else if (colourTag == ColourTag.SmallSuccess)
+            {
+                return ConsoleColor.DarkGreen;
+            }
+            else if (colourTag == ColourTag.Emphasis)
+            {
+                return ConsoleColor.Magenta;
+            }
             else if (colourTag == ColourTag.Subtle)
+            {
+                return ConsoleColor.Gray;
+            }
+            else if (colourTag == ColourTag.Disabled)
             {
                 return ConsoleColor.DarkGray;
             }
