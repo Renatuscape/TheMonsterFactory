@@ -90,10 +90,10 @@ namespace TheMonsterFactory.BL
             return $"[{Name} ({GetType().Name})]";
         }
 
-        public virtual string Defend()
+        /*public virtual string Defend()
         {
             IsDefending = true;
             return $"[{Name}] takes a defensive stance.";
-        }
+        }*/
     }
 }
