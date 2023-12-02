@@ -8,17 +8,17 @@ using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.Monsters
 {
-    public class Bolethan : Monster
+    public class Bolethan : Monster, ICaster
     {
         public Bolethan(string name, int level) : base(name, level)
         {
             Description = "A slimy, floating ball with dark powers.";
-            Name = "Bo-" + Name + "'Th";
+            Name = "Bo-" + Name + "'ul";
             MonsterLogic.defendRate = 5;
             MonsterLogic.selfishness = 100;
             MonsterLogic.logicType = MonsterLogicType.AttackHighestLevel;
 
-            Moves.Find("SweepingTentacle", MoveList);
+            Moves.Find("Sweeping Tentacle", MoveList);
             Moves.Find("Cure", MoveList);
         }
     }
