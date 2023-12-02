@@ -51,7 +51,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 {
                     int damage = DamageCalculator(move, activeCreature);
                     ally.Health += damage;
-                    gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health!]", ColourTag.Information);
+                    gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health!]", ColourTag.Emphasis);
                 }
 
                 DistributeXP(gameData, 2 * activeCreature.Level, activeCreature);
@@ -73,7 +73,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                     targetList = HeroMoveTargeting.ChooseRandomEnemies(gameData, move);
                 }
 
-                Write(gameData, $"{activeCreature} {move.Description.ToLower()}");
+                gameData.TextManager.WriteColour($"{activeCreature} {move.Description.ToLower()}", ColourTag.Default);
 
                 foreach (Creature target in targetList)
                 {
@@ -85,7 +85,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                             defenceText +=" Their [defence broke]!";
                             target.IsDefending = false;
                         }
-                        Write(gameData, defenceText);
+                        gameData.TextManager.WriteColour(defenceText, ColourTag.Alert);
                     }
                     else
                     {
@@ -116,7 +116,7 @@ namespace TheMonsterFactory.BL.CombatMoves
             if (move.BuffType == BuffType.Shield)
             {
                 activeCreature.IsDefending = true;
-                Write(gameData, $"{activeCreature} {move.Description.ToLower()}");
+                gameData.TextManager.WriteColour($"{activeCreature} {move.Description.ToLower()}", ColourTag.Default);
             }
         }
 
@@ -127,7 +127,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                 var hero = gameData.HeroList[i];
                 if (hero.Health <= 0)
                 {
-                    Write(gameData, $"{hero} died.");
+                    gameData.TextManager.WriteColour($"{hero} [died].", ColourTag.Critical);
                     gameData.HeroList.Remove(hero);
                 }
             }
@@ -139,7 +139,8 @@ namespace TheMonsterFactory.BL.CombatMoves
                 if (monster.Health <= 0)
                 {
                     int prize = monster.BaseCost * monster.Level;
-                    gameData.TextManager.WriteColour($"{monster} [was killed and dropped {prize} gold].", ColourTag.Success);
+                    gameData.TextManager.WriteColour($"{monster} was [killed] ", ColourTag.Critical, false);
+                    gameData.TextManager.WriteColour($"and dropped [{prize} gold].", ColourTag.Success, true, false);
                     foreach (Hero hero in gameData.HeroList)
                     {
                         DistributeXP(gameData, 4 * monster.Level, hero);
@@ -152,13 +153,13 @@ namespace TheMonsterFactory.BL.CombatMoves
 
         static void DistributeXP(GameData gameData, int xp, Creature hero)
         {
-            hero.AddXP(xp, out var description);
-            gameData.TextManager.WriteColour(description, ColourTag.Success);
-        }
+            hero.AddXP(xp, out string xpText, out string? levelUpText);
 
-        static void Write(GameData gameData, string text)
-        {
-            gameData.TextManager.WriteLine(text);
+            gameData.TextManager.WriteColour(xpText, ColourTag.Information);
+            if (levelUpText != null)
+            {
+                gameData.TextManager.WriteColour(levelUpText, ColourTag.Success);
+            }
         }
     }
 }
