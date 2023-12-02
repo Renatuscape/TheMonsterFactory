@@ -138,10 +138,9 @@ namespace TheMonsterFactory.BL.CombatMoves
         static int ChooseEnemy(GameData gameData)
         {
             int target = -1;
-
-            while (target <= -1 || target >= gameData.HeroList.Count)
+            if (gameData.MonsterList != null)
             {
-                if (gameData.MonsterList != null)
+                while (target < 0 || target >= gameData.MonsterList.Count)
                 {
                     for (int i = 0; i < gameData.MonsterList.Count; i++)
                     {
