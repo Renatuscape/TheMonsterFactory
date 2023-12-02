@@ -1,6 +1,7 @@
 ﻿using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.Monsters;
+using MonsterFactory.UI;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {
@@ -81,19 +82,19 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             {
                 if (target.IsDefending)
                 {
-                    string defenceText = $"{target} shielded themselves and took no damage.";
+                    string defenceText = $"{target} shielded themselves and [took no damage].";
                     if (move.MoveType == MoveType.DamagePhysical)
                     {
                         defenceText += " Their defence broke!";
                         target.IsDefending = false;
                     }
-                    gameData.TextManager.WriteLine(defenceText);
+                    gameData.TextManager.WriteColour(defenceText, ColourTag.Alert);
                 }
                 else
                 {
                     int damage = MoveManager.DamageCalculator(move, activeCreature);
                     target.Health += -damage;
-                    gameData.TextManager.WriteLine($"{target} took {damage} damage!");
+                    gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
                 }
             }
         }
@@ -108,7 +109,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             {
                 int damage = MoveManager.DamageCalculator(move, activeCreature);
                 ally.Health += damage;
-                gameData.TextManager.WriteLine($"{ally} regains {damage} points of health!");
+                gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health]!", ColourTag.Emphasis);
             }
         }
 
@@ -119,8 +120,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                 var hero = gameData.HeroList[i];
                 if (hero.Health <= 0)
                 {
-                    gameData.TextManager.WriteLine($"{hero} died.");
-                    gameData.HeroList.Remove(hero);
+                    gameData.TextManager.WriteColour($"{hero} [died].", ColourTag.Critical);
                 }
             }
 
@@ -129,7 +129,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                 var monster = gameData.MonsterList[i];
                 if (monster.Health <= 0)
                 {
-                    gameData.TextManager.WriteLine($"{monster} was killed.");
+                    gameData.TextManager.WriteColour($"{monster} was [killed].", ColourTag.Critical);
                     gameData.MonsterList.Remove(monster);
                 }
             }
