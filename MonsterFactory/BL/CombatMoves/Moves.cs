@@ -51,11 +51,13 @@
 
             Move Cure = new("Cure", "Weaves a spell to restore health.");
             Cure.MoveType = MoveType.Heal;
+            Cure.Target = TargetType.Ally;
             Cure.CanTargetSelf = true;
             All.Add(Cure);
 
             Move CureAll = new("Cure All", "Calls on a soothing spell to restore their companions.");
             CureAll.MoveType = MoveType.Heal;
+            CureAll.Target = TargetType.Ally;
             CureAll.MaxTargets = 3;
             CureAll.IsRandomTarget = true;
             CureAll.DiceMultiplier = 0.35f;
