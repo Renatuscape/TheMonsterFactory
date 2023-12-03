@@ -39,9 +39,9 @@
             Move Claws = new("Claws", "Swipes their claws.");
             All.Add(Claws);
 
-            Move Sword = new("Iron Sword", "Swings their iron sword.");
-            Sword.DiceMultiplier = 1.5f;
-            All.Add(Sword);
+            Move IronSword = new("Iron Sword", "Swings their iron sword.");
+            IronSword.DiceMultiplier = 1.5f;
+            All.Add(IronSword);
 
             Move Potion = new ("Potion", "Drinks a potion to restore their own health");
             Potion.MoveType = MoveType.Heal;
@@ -77,6 +77,16 @@
             SweepingTentacle.MissChance = 25;
             SweepingTentacle.DiceMultiplier = 0.5f;
             All.Add(SweepingTentacle);
+
+            Move Witchbolt = new("Witchbolt", "Strikes two targets with purple bolts.");
+            Witchbolt.MoveType = MoveType.DamageMagical;
+            Witchbolt.MaxTargets = 2;
+            Witchbolt.DiceMultiplier = 0.7f;
+            All.Add(Witchbolt);
+
+            Move VileBlade = new("Vile Blade", "Cuts the target with a vile blade.");
+            VileBlade.DiceMultiplier = 1.7f;
+            All.Add(VileBlade);
         }
     }
 }
