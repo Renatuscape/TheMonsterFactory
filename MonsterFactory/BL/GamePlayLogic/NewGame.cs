@@ -16,12 +16,18 @@ namespace TheMonsterFactory.BL.GamePlay
 
             textManager.WriteLine(" *** WELCOME TO THE MONSTER FACTORY *** ");
             HeroChecker.HeroNumerCheck(gameData);
-            MonsterChecker.MonsterNumberCheck(gameData);
+            gameData.MonsterList = ChapterManager.GetWave(gameData.CurrentChapter);//MonsterChecker.MonsterNumberCheck(gameData);
+            PrintMonsters(gameData);
 
             while (gameData.HeroList.Count > 0 && gameData.MonsterList.Count > 0)
             {
+                textManager.WriteColour($"[CHAPTER {gameData.CurrentChapter}]: [WAVE {ChapterManager.WaveCounter}]", ColourTag.Information);
+                textManager.WriteLine("");
                 HeroRound(gameData);
-                MonsterRound(gameData);
+                if (gameData.MonsterList.Count > 0)
+                {
+                    MonsterRound(gameData);
+                }
                 EndRound(gameData);
             }
 
@@ -91,23 +97,47 @@ namespace TheMonsterFactory.BL.GamePlay
             }
             else if (gameData.MonsterList.Count <= 0)
             {
-                gameData.TextManager.WriteColour(" [You vanquished the enemy! Congratulations are in order.] ", ColourTag.Success);
-            }
-            else if (gameData.HeroList.Count > 0 && gameData.MonsterList.Count > 0)
-            {
-                if (gameData.randomiser.Next(0, 100) > 30)
+                gameData.TextManager.WriteColour("[Wave cleared!]", ColourTag.SmallSuccess);
+                gameData.TextManager.ContinueAfterAnyKey();
+
+                if (ChapterManager.WaveCounter < ChapterManager.GetWavesInChapter(gameData.CurrentChapter))
                 {
-                    gameData.GameRound++;
-                    if (gameData.GameRound % 3 == 0)
+                    gameData.MonsterList = ChapterManager.GetWave(gameData.CurrentChapter);
+                    PrintMonsters(gameData);
+                }
+                else
+                {
+                    gameData.TextManager.WriteColour(" [You vanquished the enemy! Chapter cleared.] ", ColourTag.Success);
+                    gameData.TextManager.ContinueAfterAnyKey();
+                    gameData.CurrentChapter++;
+
+                    if (gameData.CurrentChapter < ChapterManager.GetChapterCount())
                     {
-                        gameData.MonsterLevel++;
+                        ChapterManager.WaveCounter = 0;
+                        gameData.PlayerLevel++;
+
+                        gameData.MonsterList = ChapterManager.GetWave(gameData.CurrentChapter);
+                        PrintMonsters(gameData);
+                        HeroChecker.HeroNumerCheck(gameData);
+                        //CALL SHOP LOGIC HERE
+                    }
+                    else
+                    {
+                        gameData.TextManager.WriteColour(" [LAST CHAPTER CLEARED - CONGRATULATIONS!] ", ColourTag.Success);
                     }
                 }
-
-                gameData.PlayerLevel = gameData.randomiser.Next(1, gameData.MonsterLevel < 4 ? gameData.MonsterLevel : gameData.MonsterLevel - 3);
-                HeroChecker.HeroNumerCheck(gameData);
-                MonsterChecker.MonsterNumberCheck(gameData);
             }
+        }
+
+        public static void PrintMonsters(GameData gameData)
+        {
+            gameData.TextManager.WriteLine("\nENEMY ATTACKERS\n");
+
+            foreach (var monster in gameData.MonsterList)
+            {
+                gameData.TextManager.WriteLine(monster.FullStats());
+            }
+            gameData.TextManager.ContinueAfterAnyKey();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TheMonsterFactory.DataCollection
 
         public void CreateChapters()
         {
-            NameAndAdd(new Chapter
+            NameAndAdd(new Chapter // CHAPTER 1
             {
                 Waves =
                 {
@@ -29,7 +29,6 @@ namespace TheMonsterFactory.DataCollection
                     {
                         WaveContent =
                         {
-                            new Goblin(_names.GetRandomName(), 1),
                             new Goblin(_names.GetRandomName(), 1),
                             new Goblin(_names.GetRandomName(), 1),
                             new Goblin(_names.GetRandomName(), 2)
@@ -58,7 +57,51 @@ namespace TheMonsterFactory.DataCollection
                 }
             });
 
-            NameAndAdd(new Chapter
+            NameAndAdd(new Chapter  // CHAPTER 2
+            {
+                Waves =
+                {
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Goblin(_names.GetRandomName(), 2),
+                            new Goblin(_names.GetRandomName(), 2),
+                            new Spectre(_names.GetRandomName(), 3)
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Goblin(_names.GetRandomName(), 1),
+                            new Bolethan(_names.GetRandomName(), 2),
+                            new Spectre(_names.GetRandomName(), 3),
+                            new Goblin(_names.GetRandomName(), 2)
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Goblin(_names.GetRandomName(), 2),
+                            new Bolethan(_names.GetRandomName(), 2),
+                            new Bolethan(_names.GetRandomName(), 2),
+                            new Spectre(_names.GetRandomName(), 2)
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Vileblade(_names.GetRandomName(), 3),
+                            new Spectre(_names.GetRandomName(), 2)
+                        }
+                    }
+                }
+            });
+
+            NameAndAdd(new Chapter  // CHAPTER 3
             {
                 Waves =
                 {
@@ -69,16 +112,7 @@ namespace TheMonsterFactory.DataCollection
                             new Goblin(_names.GetRandomName(), 2),
                             new Goblin(_names.GetRandomName(), 2),
                             new Goblin(_names.GetRandomName(), 2),
-                            new Spectre(_names.GetRandomName(), 2)
-                        }
-                    },
-                    new Wave
-                    {
-                        WaveContent =
-                        {
                             new Goblin(_names.GetRandomName(), 2),
-                            new Bolethan(_names.GetRandomName(), 2),
-                            new Spectre(_names.GetRandomName(), 3),
                             new Goblin(_names.GetRandomName(), 2)
                         }
                     },
@@ -86,10 +120,20 @@ namespace TheMonsterFactory.DataCollection
                     {
                         WaveContent =
                         {
-                            new Goblin(_names.GetRandomName(), 3),
-                            new Bolethan(_names.GetRandomName(), 2),
-                            new Bolethan(_names.GetRandomName(), 2),
-                            new Spectre(_names.GetRandomName(), 2)
+                            new Bolethan(_names.GetRandomName(), 3),
+                            new Bolethan(_names.GetRandomName(), 3),
+                            new Bolethan(_names.GetRandomName(), 3),
+                            new Vileblade(_names.GetRandomName(), 3),
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Vileblade(_names.GetRandomName(), 4),
+                            new Spectre(_names.GetRandomName(), 3),
+                            new Spectre(_names.GetRandomName(), 3),
+                            new Spectre(_names.GetRandomName(), 3)
                         }
                     }
                 }
