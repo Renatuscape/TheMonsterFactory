@@ -6,6 +6,7 @@ using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 using TheMonsterFactory.BL.GameStructure;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
+using TheMonsterFactory.BL.GamePlayLogic.ShopComponents;
 
 namespace TheMonsterFactory.BL.GamePlay
 {
@@ -116,11 +117,11 @@ namespace TheMonsterFactory.BL.GamePlay
                     {
                         ChapterManager.WaveCounter = 0;
                         gameData.PlayerLevel++;
+                        
+                        TownManager.OpenMenu(gameData);
 
                         gameData.MonsterList = ChapterManager.GetWave(gameData.CurrentChapter);
                         PrintMonsters(gameData);
-                        HeroChecker.HeroNumerCheck(gameData);
-                        //CALL SHOP LOGIC HERE
                     }
                     else
                     {
