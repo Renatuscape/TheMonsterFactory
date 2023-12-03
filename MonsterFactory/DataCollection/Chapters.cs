@@ -138,6 +138,39 @@ namespace TheMonsterFactory.DataCollection
                     }
                 }
             });
+            NameAndAdd(new Chapter  // CHAPTER 4
+            {
+                Waves =
+                {
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Bolethan(_names.GetRandomName(), 5),
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Goblin(_names.GetRandomName(), 4),
+                            new Goblin(_names.GetRandomName(), 4),
+                            new Bolethan(_names.GetRandomName(), 4),
+                            new Spectre(_names.GetRandomName(), 6),
+                        }
+                    },
+                    new Wave
+                    {
+                        WaveContent =
+                        {
+                            new Vileblade(_names.GetRandomName(), 4),
+                            new Vileblade(_names.GetRandomName(), 4),
+                            new Vileblade(_names.GetRandomName(), 4),
+                            new Spectre(_names.GetRandomName(), 5)
+                        }
+                    }
+                }
+            });
         }
 
         public void NameAndAdd(Chapter chapter)
