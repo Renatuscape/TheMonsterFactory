@@ -43,6 +43,10 @@
             IronSword.DiceMultiplier = 1.5f;
             All.Add(IronSword);
 
+            Move SteelSword = new("Steel Sword", "Swings their steel sword.");
+            SteelSword.DiceMultiplier = 1.8f;
+            All.Add(SteelSword);
+
             Move Potion = new ("Potion", "Drinks a potion to restore their own health");
             Potion.MoveType = MoveType.Heal;
             Potion.DiceMultiplier = 0.5f;
@@ -85,7 +89,7 @@
             All.Add(Witchbolt);
 
             Move VileBlade = new("Vile Blade", "Cuts the target with a vile blade.");
-            VileBlade.DiceMultiplier = 1.7f;
+            VileBlade.DiceMultiplier = 2.0f;
             All.Add(VileBlade);
         }
     }
