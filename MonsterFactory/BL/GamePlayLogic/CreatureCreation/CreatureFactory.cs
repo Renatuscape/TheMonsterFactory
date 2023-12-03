@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.DataAccess;
 
-namespace TheMonsterFactory.BL.GamePlayLogic
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {
     public abstract class CreatureFactory
     {

@@ -1,7 +1,7 @@
 ﻿using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.DiceLogic;
 
-namespace TheMonsterFactory.BL
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {
     public abstract class Creature
     {
@@ -40,7 +40,7 @@ namespace TheMonsterFactory.BL
             xpText = $"{this} gained [{xp} xp].";
             Experience += xp;
 
-            if (Experience > 10 * (Level * Level))
+            if (Experience > 10 * Level * Level)
             {
                 LevelUp();
                 Experience = 0;
@@ -75,10 +75,10 @@ namespace TheMonsterFactory.BL
 
         public virtual string FullStats()
         {
-            return $"Name: {$"[{Name} ({GetType().Name})]", -20}\n" +
-                $"| Level: {Level, -20}\n" +
+            return $"Name: {$"[{Name} ({GetType().Name})]",-20}\n" +
+                $"| Level: {Level,-20}\n" +
                 $"| Health: {Health,-20}\n" +
-                $"| Action Die: {Die.GetType().Name, -20}\n" +
+                $"| Action Die: {Die.GetType().Name,-20}\n" +
                 $"| Desciption: {Description,-20}\n";
         }
         public virtual string ShortStats()

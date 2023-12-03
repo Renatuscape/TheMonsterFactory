@@ -1,5 +1,6 @@
 ﻿using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.DiceLogic;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
 namespace TheMonsterFactory.BL.Heroes
 {

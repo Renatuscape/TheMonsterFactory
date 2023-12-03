@@ -1,7 +1,7 @@
 ﻿using TheMonsterFactory.BL.Monsters;
 using TheMonsterFactory.DataCollection;
 
-namespace TheMonsterFactory.BL.GamePlay
+namespace TheMonsterFactory.BL.GameStructure
 {
     public static class ChapterManager
     {

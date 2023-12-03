@@ -1,6 +1,6 @@
 ﻿using TheMonsterFactory.BL.Heroes;
 
-namespace TheMonsterFactory.BL.GamePlayLogic
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {
     public class HeroMaker : CreatureFactory
     {

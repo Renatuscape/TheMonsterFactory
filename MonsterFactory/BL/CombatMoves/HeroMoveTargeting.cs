@@ -1,4 +1,5 @@
 ﻿using TheMonsterFactory.BL.GamePlay;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 using TheMonsterFactory.BL.Heroes;
 using TheMonsterFactory.BL.Monsters;
 

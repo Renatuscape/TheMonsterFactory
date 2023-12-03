@@ -5,6 +5,7 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
 namespace TheMonsterFactory.BL.Heroes
 {

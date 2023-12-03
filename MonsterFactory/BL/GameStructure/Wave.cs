@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.GamePlay;
-using TheMonsterFactory.BL.GamePlayLogic;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GameStructure

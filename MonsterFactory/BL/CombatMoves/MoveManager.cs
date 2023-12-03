@@ -9,6 +9,7 @@ using TheMonsterFactory.BL.Heroes;
 using MonsterFactory.UI;
 using TheMonsterFactory.BL.Monsters;
 using static System.Net.Mime.MediaTypeNames;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
 namespace TheMonsterFactory.BL.CombatMoves
 {

@@ -3,6 +3,7 @@ using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.Monsters;
 using MonsterFactory.UI;
 using System.Threading;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {
