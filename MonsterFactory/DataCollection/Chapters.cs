@@ -49,7 +49,7 @@ namespace TheMonsterFactory.DataCollection
                         WaveContent =
                         {
                             new Goblin(_names.GetRandomName(), 1),
-                            new Goblin(_names.GetRandomName(), 2),
+                            new Goblin(_names.GetRandomName(), 1),
                             new Bolethan(_names.GetRandomName(), 2),
                             new Spectre(_names.GetRandomName(), 2)
                         }
