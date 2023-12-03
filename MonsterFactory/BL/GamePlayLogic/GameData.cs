@@ -11,8 +11,8 @@ namespace TheMonsterFactory.BL.GamePlay
         public List<Hero> HeroList { get; set; }
         public List<Monster> MonsterList { get; set; }
         public int MonsterLevel { get; set; } = 1;
-        public int PlayerLevel { get; set; } = 0;
-        public int CurrentChapter { get; set; } = 1;
+        public int PlayerLevel { get; set; } = 1;
+        public int CurrentChapter { get; set; } = 0;
         public int Gold { get; set; } = 65;
         public int GameRound { get; set; } = 0;
         public GameData(ITextManagement textManager)
