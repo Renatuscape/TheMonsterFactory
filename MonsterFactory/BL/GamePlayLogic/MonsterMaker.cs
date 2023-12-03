@@ -7,11 +7,17 @@ namespace TheMonsterFactory.BL.GamePlayLogic
         public override Monster CreateFighter(int level, string name = "")
         {
             name = nameGenerator.GetRandomName();
-            if (random.Next(0, 100) > 80)
+            int randomRoll = random.Next(0, 100);
+
+            if (randomRoll > 95)
+            {
+                return new Vileblade(name, level);
+            }
+            else if (randomRoll > 80)
             {
                 return new Spectre(name, level);
             }
-            else if (random.Next(0, 100) > 70)
+            else if (randomRoll > 65)
             {
                 return new Bolethan(name, level);
             }
