@@ -8,7 +8,7 @@ using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.Monsters
 {
-    public abstract class Monster : Creature, IAttack
+    public abstract class Monster : Creature
     {
         public MonsterLogic MonsterLogic { get; set; } = new();
         public Monster(string name, int level) : base(name, level)
@@ -16,13 +16,6 @@ namespace TheMonsterFactory.BL.Monsters
             Description = "A nasty little trickster.";
             MonsterLogic.defendRate = 10;
             MonsterLogic.logicType = MonsterLogicType.AttackHighestLevel;
-            Moves.Find("Claws", MoveList);
-        }
-
-        public virtual int Attack(out string description)
-        {
-            description = $"{Name} attacks!";
-            return Die.Roll(Level);
         }
     }
 }

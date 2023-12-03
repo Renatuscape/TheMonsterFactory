@@ -21,6 +21,7 @@ namespace TheMonsterFactory.BL.Monsters
 
             Moves.Find("Cure", MoveList);
             Moves.Find("Cure All", MoveList);
+            Moves.Find("Claws", MoveList);
         }
     }
 }

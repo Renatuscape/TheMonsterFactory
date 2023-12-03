@@ -13,12 +13,5 @@ namespace TheMonsterFactory.BL.Monsters
         {
             Moves.Find("Claws", MoveList);
         }
-
-        public override int Attack(out string description)
-        {
-            int amount = Die.Roll(Level);
-            description = $"{Name} swipes with its claws for {amount} damage!";
-            return amount;
-        }
     }
 }
