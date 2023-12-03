@@ -1,5 +1,4 @@
 ﻿using TheMonsterFactory.BL.GamePlay;
-using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {

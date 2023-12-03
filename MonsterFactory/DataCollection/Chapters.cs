@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
 using TheMonsterFactory.BL.GameStructure;
-using TheMonsterFactory.BL.Monsters;
 using TheMonsterFactory.DataAccess;
 
 namespace TheMonsterFactory.DataCollection
