@@ -1,4 +1,5 @@
-﻿using TheMonsterFactory.BL.Monsters;
+﻿using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
+using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {

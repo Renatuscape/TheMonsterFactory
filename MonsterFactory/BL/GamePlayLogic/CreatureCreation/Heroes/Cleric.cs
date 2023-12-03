@@ -2,7 +2,7 @@
 using TheMonsterFactory.BL.DiceLogic;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
-namespace TheMonsterFactory.BL.Heroes
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
 {
     public class Cleric : Hero, IHeal
     {

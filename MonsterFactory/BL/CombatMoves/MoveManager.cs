@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.GamePlay;
-using TheMonsterFactory.BL.Heroes;
 using MonsterFactory.UI;
 using TheMonsterFactory.BL.Monsters;
 using static System.Net.Mime.MediaTypeNames;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
 
 namespace TheMonsterFactory.BL.CombatMoves
 {

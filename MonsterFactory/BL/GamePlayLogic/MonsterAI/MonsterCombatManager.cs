@@ -1,9 +1,9 @@
 ﻿using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlay;
-using TheMonsterFactory.BL.Monsters;
 using MonsterFactory.UI;
 using System.Threading;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {

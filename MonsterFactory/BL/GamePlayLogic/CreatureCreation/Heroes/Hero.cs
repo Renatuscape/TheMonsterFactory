@@ -1,7 +1,7 @@
 ﻿using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
-namespace TheMonsterFactory.BL.Heroes
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
 {
     public abstract class Hero : Creature
     {

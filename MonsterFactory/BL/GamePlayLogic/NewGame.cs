@@ -1,11 +1,11 @@
 ﻿using System;
 using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
-using TheMonsterFactory.BL.Heroes;
-using TheMonsterFactory.BL.Monsters;
 using MonsterFactory.UI;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 using TheMonsterFactory.BL.GameStructure;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
 
 namespace TheMonsterFactory.BL.GamePlay
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
 
-namespace TheMonsterFactory.BL.Monsters
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
 {
     internal class Goblin : Monster
     {

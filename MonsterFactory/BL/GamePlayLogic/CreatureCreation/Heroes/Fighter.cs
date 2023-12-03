@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
 
-namespace TheMonsterFactory.BL.Heroes
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
 {
     public class Fighter : Hero
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
-namespace TheMonsterFactory.BL.Monsters
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
 {
     public class Vileblade : Monster
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 
-namespace TheMonsterFactory.BL.Heroes
+namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
 {
     public class Scribe : Hero, ICaster
     {

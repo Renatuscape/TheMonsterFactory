@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
 using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
 using TheMonsterFactory.BL.Heroes;
-using TheMonsterFactory.BL.Monsters;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 {

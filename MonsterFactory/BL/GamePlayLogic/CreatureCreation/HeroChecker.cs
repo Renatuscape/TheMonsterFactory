@@ -1,5 +1,5 @@
 ﻿using TheMonsterFactory.BL.GamePlay;
-using TheMonsterFactory.BL.Heroes;
+using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 {
