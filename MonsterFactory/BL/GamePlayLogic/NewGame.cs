@@ -30,6 +30,11 @@ namespace TheMonsterFactory.BL.GamePlay
                 {
                     MonsterRound(gameData);
                 }
+                if (gameData.HeroList.Count > 0)
+                {
+                    CheckOverrun(gameData);
+                }
+
                 EndRound(gameData);
             }
 
@@ -78,16 +83,18 @@ namespace TheMonsterFactory.BL.GamePlay
 
         public void MonsterRound(GameData gameData)
         {
-            gameData.TextManager.WriteLine("Monster Phase!");
-            foreach (Monster monster in gameData.MonsterList)
-            {
-                if (gameData.HeroList.Count < 1)
+                gameData.TextManager.WriteLine("Monster Phase!");
+                foreach (Monster monster in gameData.MonsterList)
                 {
-                    break;
+                    if (gameData.HeroList.Count < 1)
+                    {
+                        break;
+                    }
+                    MonsterCombatManager.Act(gameData, monster);
+                    gameData.TextManager.ContinueAfterAnyKey();
                 }
-                MonsterCombatManager.Act(gameData, monster);
-                gameData.TextManager.ContinueAfterAnyKey();
-            }
+
+                ChapterManager.PassRound(gameData.CurrentChapter);
         }
 
         public void EndRound(GameData gameData)
@@ -131,6 +138,40 @@ namespace TheMonsterFactory.BL.GamePlay
             }
         }
 
+        public static void CheckOverrun(GameData gameData)
+        {
+            if (ChapterManager.GetRemainingRounds(gameData.CurrentChapter) > 0)
+            {
+                if (ChapterManager.GetRemainingRounds(gameData.CurrentChapter) < 3)
+                {
+                    gameData.TextManager.WriteColour($"[{ChapterManager.GetRemainingRounds(gameData.CurrentChapter)} rounds until the enemy reaches the city gates.]", ColourTag.Alert);
+                }
+            }
+            else
+            {
+                gameData.TextManager.WriteColour("[THE ENEMY OVERWHELMS YOU]", ColourTag.Critical);
+                List<Hero> killList = new();
+                foreach (Hero hero in gameData.HeroList)
+                {
+                    int roundMultiplier = (ChapterManager.GetRemainingRounds(gameData.CurrentChapter) - 1) * -2;
+                    int monsterModifier = gameData.MonsterList.Count > 0 ? gameData.MonsterList.Count : 1;
+                    int maxDamage = Convert.ToInt32(hero.Health * roundMultiplier + monsterModifier);
+                    int damage = gameData.randomiser.Next(Convert.ToInt32(hero.Health * 0.4f), maxDamage);
+
+                    hero.Health -= damage;
+                    gameData.TextManager.WriteColour($"{hero} takes [{damage} damage.]", ColourTag.Critical);
+                    if (hero.Health <= 0)
+                    {
+                        gameData.TextManager.WriteColour($"{hero} [died.]", ColourTag.Critical);
+                        killList.Add(hero);
+                    }
+                }
+                foreach (Hero hero in killList)
+                {
+                    gameData.HeroList.Remove(hero);
+                }
+            }
+        }
         public static void PrintMonsters(GameData gameData)
         {
             gameData.TextManager.WriteLine("\nENEMY ATTACKERS\n");
