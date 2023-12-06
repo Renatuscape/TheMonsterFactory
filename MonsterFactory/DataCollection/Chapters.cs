@@ -23,6 +23,7 @@ namespace TheMonsterFactory.DataCollection
         {
             NameAndAdd(new Chapter // CHAPTER 1
             {
+                RemainingRounds = 6,
                 Waves =
                 {
                     new Wave
@@ -59,6 +60,7 @@ namespace TheMonsterFactory.DataCollection
 
             NameAndAdd(new Chapter  // CHAPTER 2
             {
+                RemainingRounds = 8,
                 Waves =
                 {
                     new Wave
@@ -103,6 +105,7 @@ namespace TheMonsterFactory.DataCollection
 
             NameAndAdd(new Chapter  // CHAPTER 3
             {
+                RemainingRounds = 7,
                 Waves =
                 {
                     new Wave
@@ -140,6 +143,7 @@ namespace TheMonsterFactory.DataCollection
             });
             NameAndAdd(new Chapter  // CHAPTER 4
             {
+                RemainingRounds = 5,
                 Waves =
                 {
                     new Wave
