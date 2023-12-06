@@ -5,7 +5,7 @@ namespace TheMonsterFactory.BL.GameStructure
 {
     public static class ChapterManager
     {
-        public static Chapters Chapters { get; } = new();
+        static Chapters Chapters { get; } = new();
         public static int WaveCounter { get; set; } = 0;
 
         public static List<Monster> GetWave(int chapterIndex)
@@ -23,6 +23,15 @@ namespace TheMonsterFactory.BL.GameStructure
         public static int GetChapterCount()
         {
             return Chapters.ChapterList.Count;
+        }
+
+        public static int GetRemainingRounds(int chapterIndex)
+        {
+            return Chapters.ChapterList[chapterIndex].RemainingRounds;
+        }
+        public static void PassRound(int chapterIndex)
+        {
+            Chapters.ChapterList[chapterIndex].RemainingRounds--;
         }
     }
 }
