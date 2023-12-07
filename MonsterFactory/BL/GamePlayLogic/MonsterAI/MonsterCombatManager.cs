@@ -116,9 +116,16 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                 }
                 else
                 {
-                    int damage = MoveManager.DamageCalculator(move, activeCreature);
-                    target.Health += -damage;
-                    gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
+                    if (move.Accuracy - target.Evasiveness > gameData.randomiser.Next(0, 100))
+                    {
+                        int damage = MoveManager.DamageCalculator(move, activeCreature);
+                        target.Health += -damage;
+                        gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
+                    }
+                    else
+                    {
+                        gameData.TextManager.WriteColour($"{target} [evaded] the attack!", ColourTag.Alert);
+                    }
                 }
             }
         }
