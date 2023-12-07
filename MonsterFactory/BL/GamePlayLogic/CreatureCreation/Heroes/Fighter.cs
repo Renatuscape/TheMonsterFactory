@@ -12,7 +12,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
         public Fighter(string name, int level) : base(name, level)
         {
             BaseCost = 15;
-
+            Evasiveness = 0;
             Description = "A brave, bright-eyed adventurer.";
             Moves.Find("Iron Sword", MoveList);
         }
