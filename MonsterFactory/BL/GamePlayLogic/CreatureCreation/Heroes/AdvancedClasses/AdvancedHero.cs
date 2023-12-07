@@ -10,6 +10,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedCla
     {
         protected AdvancedHero(string name, int level) : base(name, level)
         {
+            BaseCost = BaseCost * 2;
         }
     }
 }

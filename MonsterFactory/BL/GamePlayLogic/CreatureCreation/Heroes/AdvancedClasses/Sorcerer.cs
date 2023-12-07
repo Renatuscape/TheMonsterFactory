@@ -9,12 +9,11 @@ using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedClasses
 {
-    internal class Sorcerer : AdvancedHero, ICaster
+    public class Sorcerer : AdvancedHero, ICaster
     {
         public Sorcerer(string name, int level) : base(name, level)
         {
-            BaseCost = 40;
-
+            Evasiveness = 10;
             Description = "A single-target caster with offensive and defensive spells.";
             Moves.Find("Cure", MoveList);
             Moves.Find("Witchbolt", MoveList);

@@ -11,8 +11,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedCla
     {
         public Knight(string name, int level) : base(name, level)
         {
-            BaseCost = 30;
-
+            Evasiveness = 0;
             Description = "A confident and sturdy warrior.";
             Moves.Find("Steel Sword", MoveList);
         }
