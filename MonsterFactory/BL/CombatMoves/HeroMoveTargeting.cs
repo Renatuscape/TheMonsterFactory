@@ -10,14 +10,14 @@ namespace TheMonsterFactory.BL.CombatMoves
             List<Creature> targetList = new();
             for (int i = 0; i < move.MaxTargets; i++)
             {
-                if (i == 1)
+                if (move.MaxTargets == 1)
                 {
                     int target = ChooseEnemy(gameData);
                     targetList.Add(gameData.MonsterList[target]);
                 }
                 else
                 {
-                    gameData.TextManager.WriteColour($"Choose target [{targetList.Count+1}] out of [{i}].", MonsterFactory.UI.ColourTag.Information);
+                    gameData.TextManager.WriteColour($"Choose target [{targetList.Count+1}] out of [{move.MaxTargets}].", MonsterFactory.UI.ColourTag.Information);
                     int target = ChooseEnemy(gameData);
                     targetList.Add(gameData.MonsterList[target]);
                     gameData.TextManager.ClearScreen();
