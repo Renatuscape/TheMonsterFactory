@@ -15,6 +15,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
         public string Description { get; set; } = string.Empty;
         public List<Move> MoveList { get; set; } = new();
 
+        public int Evasiveness { get; set; } = 5;
+
         public Creature(string name, int level)
         {
             Name = name;
