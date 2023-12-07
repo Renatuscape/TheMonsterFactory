@@ -37,6 +37,7 @@
             All.Add(Staff);
 
             Move Claws = new("Claws", "Swipes their claws.");
+            Claws.Accuracy = 90;
             All.Add(Claws);
 
             Move IronSword = new("Iron Sword", "Swings their iron sword.");
@@ -72,13 +73,14 @@
             MagicMissile.MaxTargets = 4;
             MagicMissile.IsRandomTarget = true;
             MagicMissile.DiceMultiplier = 0.35f;
+            MagicMissile.Accuracy = 200;
             All.Add(MagicMissile);
 
             Move SweepingTentacle = new("Sweeping Tentacle", "Sweeps across the field with a long tentacle.");
             SweepingTentacle.MoveType = MoveType.DamageMagical;
             SweepingTentacle.MaxTargets = 3;
             SweepingTentacle.IsRandomTarget = true;
-            SweepingTentacle.MissChance = 25;
+            SweepingTentacle.Accuracy = 80;
             SweepingTentacle.DiceMultiplier = 0.5f;
             All.Add(SweepingTentacle);
 
