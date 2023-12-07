@@ -46,7 +46,10 @@ namespace MonsterFactory.UI
             return text = "\t" + text.Replace("\n", "\n\t");
         }
 
-
+        public void ClearScreen()
+        {
+            Console.Clear();
+        }
         public void WriteColour(string text, ColourTag colourTag, bool isNewLine = true, bool isTabulated = true)
         {
             if (isTabulated)
