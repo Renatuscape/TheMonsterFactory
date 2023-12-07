@@ -13,7 +13,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
             List<Hero> promotionList = new();
             foreach (Hero hero in gameData.HeroList)
             {
-                if (hero.Level > 2 || hero is not AdvancedHero)
+                if (hero.Level >= hero.AdvanceLevel && hero is not AdvancedHero)
                 {
                     promotionList.Add(hero);
                 }
