@@ -89,10 +89,17 @@ namespace TheMonsterFactory.BL.CombatMoves
                     }
                     else
                     {
-                        int damage = DamageCalculator(move, activeCreature);
-                        target.Health += -damage;
-                        gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
-                        averageTargetLevel += target.Level;
+                        if (move.Accuracy - target.Evasiveness > gameData.randomiser.Next(0, 100))
+                        {
+                            int damage = DamageCalculator(move, activeCreature);
+                            target.Health += -damage;
+                            gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
+                            averageTargetLevel += target.Level;
+                        }
+                        else
+                        {
+                            gameData.TextManager.WriteColour($"{target} [evaded] the attack!", ColourTag.Alert);
+                        }
                     }
                 }
 

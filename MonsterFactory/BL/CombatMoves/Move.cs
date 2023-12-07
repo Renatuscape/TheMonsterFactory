@@ -14,7 +14,7 @@ namespace TheMonsterFactory.BL.CombatMoves
         public MoveType MoveType { get; set; } = MoveType.DamagePhysical;
         public BuffType BuffType { get; set; } = BuffType.None;
         public int MaxTargets { get; set; } = 1;
-        public int MissChance { get; set; } = 10;
+        public int Accuracy { get; set; } = 95;
         public float DiceMultiplier { get; set; } = 1;
         public bool CanTargetSelf { get; set; } = false;
         public bool CanTargetSelfOnly { get; set; } = false;
