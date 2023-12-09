@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedClasses
 {
     public abstract class AdvancedHero : Hero
     {
-        protected AdvancedHero(string name, int level) : base(name, level)
+        public AdvancedHero(string name, int level) : base(name, level)
         {
-            BaseCost = BaseCost * 2;
+            AdvanceLevel = 3;
+            BaseCost = BaseCost * 3;
+            ActionDie = new D8();
+            HealthDie = new D8();
         }
     }
 }
