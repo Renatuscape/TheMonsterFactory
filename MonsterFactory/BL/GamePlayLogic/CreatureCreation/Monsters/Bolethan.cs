@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
@@ -13,6 +14,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
     {
         public Bolethan(string name, int level) : base(name, level)
         {
+            ActionDie = new D6();
             Description = "A slimy, floating ball with dark powers.";
             Name = "Bo-" + Name + "'ul";
             MonsterLogic.defendRate = 5;

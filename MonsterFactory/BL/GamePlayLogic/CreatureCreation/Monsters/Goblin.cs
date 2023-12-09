@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
 {
-    internal class Goblin : Monster
+    public class Goblin : Monster
     {
         public Goblin(string name, int level) : base(name, level)
         {

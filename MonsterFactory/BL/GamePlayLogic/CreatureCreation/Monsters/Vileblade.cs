@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 using TheMonsterFactory.BL.GamePlayLogic.MonsterAI;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
@@ -12,6 +13,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
     {
         public Vileblade(string name, int level) : base(name, level)
         {
+            HealthDie = new D10();
+            ActionDie = new D6();
             Description = "A foul knight raised from the grave by evil powers.";
             Name = "Ser " + Name;
 
@@ -22,17 +25,6 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters
 
             Moves.Find("Witchbolt", MoveList);
             Moves.Find("Vile Blade", MoveList);
-        }
-        public override void UpdateHealth()
-        {
-            int healthBoost = 0;
-            healthBoost += Die.Roll(Level);
-            Health += Convert.ToInt32(healthBoost * 1.5f);
-
-            if (Health < 2)
-            {
-                Health = 2;
-            }
         }
     }
 }
