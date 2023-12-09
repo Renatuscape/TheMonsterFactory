@@ -49,9 +49,21 @@ namespace TheMonsterFactory.BL.CombatMoves
 
                 foreach (Creature ally in targetList)
                 {
-                    int damage = DamageCalculator(move, activeCreature);
-                    ally.Health += damage;
-                    gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health!]", ColourTag.Emphasis);
+                    int potency = DamageCalculator(move, activeCreature);
+
+                    if (ally.CurrentHealth + potency > ally.MaxHealth)
+                    {
+                        potency = ally.MaxHealth - ally.CurrentHealth;
+                    }
+                    if (potency > 0)
+                    {
+                        ally.CurrentHealth += potency;
+                        gameData.TextManager.WriteColour($"{ally} regains [{potency} points of health!]", ColourTag.Emphasis);
+                    }
+                    else
+                    {
+                        gameData.TextManager.WriteColour($"{move.Name} [did nothing] to {ally}", ColourTag.Emphasis);
+                    }
                 }
 
                 DistributeXP(gameData, 2 * activeCreature.Level, activeCreature);
@@ -92,7 +104,7 @@ namespace TheMonsterFactory.BL.CombatMoves
                         if (move.Accuracy - target.Evasiveness > gameData.randomiser.Next(0, 100))
                         {
                             int damage = DamageCalculator(move, activeCreature);
-                            target.Health += -damage;
+                            target.CurrentHealth += -damage;
                             gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
                             averageTargetLevel += target.Level;
                         }
@@ -115,7 +127,7 @@ namespace TheMonsterFactory.BL.CombatMoves
         public static int DamageCalculator(Move move, Creature attacker)
         {
             int damage = 1;
-            damage += Convert.ToInt32(attacker.Die.Roll(attacker.Level) * move.DiceMultiplier);
+            damage += attacker.ActionDie.Roll(move.DiceMultiplier) + move.DiceBonus;
             return damage;
         }
         static void BuffParser(GameData gameData, Creature activeCreature, Move move)
@@ -132,7 +144,7 @@ namespace TheMonsterFactory.BL.CombatMoves
             for (int i = gameData.HeroList.Count - 1; i >= 0; i--)
             {
                 var hero = gameData.HeroList[i];
-                if (hero.Health <= 0)
+                if (hero.CurrentHealth <= 0)
                 {
                     gameData.TextManager.WriteColour($"{hero} [died].", ColourTag.Critical);
                     gameData.HeroList.Remove(hero);
@@ -143,7 +155,7 @@ namespace TheMonsterFactory.BL.CombatMoves
             {
                 var monster = gameData.MonsterList[i];
 
-                if (monster.Health <= 0)
+                if (monster.CurrentHealth <= 0)
                 {
                     int prize = monster.BaseCost * monster.Level;
                     gameData.TextManager.WriteColour($"{monster} was [killed] ", ColourTag.Critical, false);
