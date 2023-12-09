@@ -23,6 +23,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 
                 if (gameData.HeroList.Count > 0)
                 {
+                    gameData.Render.Roster(gameData);
+                    gameData.TextManager.WriteLine("");
                     gameData.TextManager.WriteLine($"You have {gameData.Gold} gold. Would you like to add a hero to your party?");
                     gameData.TextManager.WriteLine($"[0] Fighter ({fighter.BaseCost}x Level gold)");
                     gameData.TextManager.WriteLine($"[1] Cleric ({cleric.BaseCost}x Level gold)");
