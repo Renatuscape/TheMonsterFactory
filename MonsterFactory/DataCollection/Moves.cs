@@ -33,7 +33,8 @@
             All.Add(Defend);
 
             Move Staff = new("Staff", "Jabs with a staff.");
-            Staff.DiceMultiplier = 0.8f;
+            Staff.DiceMultiplier = 1;
+            Staff.DiceBonus = -1;
             All.Add(Staff);
 
             Move Claws = new("Claws", "Swipes their claws.");
@@ -41,16 +42,18 @@
             All.Add(Claws);
 
             Move IronSword = new("Iron Sword", "Swings their iron sword.");
-            IronSword.DiceMultiplier = 1.5f;
+            IronSword.DiceMultiplier = 1;
+            IronSword.DiceBonus = 1;
             All.Add(IronSword);
 
             Move SteelSword = new("Steel Sword", "Swings their steel sword.");
-            SteelSword.DiceMultiplier = 1.8f;
+            SteelSword.DiceMultiplier = 2;
+            SteelSword.DiceBonus = 4;
             All.Add(SteelSword);
 
             Move Potion = new ("Potion", "Drinks a potion to restore their own health");
             Potion.MoveType = MoveType.Heal;
-            Potion.DiceMultiplier = 0.5f;
+            Potion.DiceMultiplier = 1;
             Potion.CanTargetSelfOnly = true;
             All.Add(Potion);
 
@@ -65,14 +68,14 @@
             CureAll.Target = TargetType.Ally;
             CureAll.MaxTargets = 3;
             CureAll.IsRandomTarget = true;
-            CureAll.DiceMultiplier = 0.35f;
+            CureAll.DiceBonus = -1;
             All.Add(CureAll);
 
             Move MagicMissile = new("Magic Missile", "Strikes the targets with magic missiles.");
             MagicMissile.MoveType = MoveType.DamageMagical;
             MagicMissile.MaxTargets = 4;
             MagicMissile.IsRandomTarget = true;
-            MagicMissile.DiceMultiplier = 0.35f;
+            MagicMissile.DiceBonus = -1;
             MagicMissile.Accuracy = 200;
             All.Add(MagicMissile);
 
@@ -81,18 +84,22 @@
             SweepingTentacle.MaxTargets = 3;
             SweepingTentacle.IsRandomTarget = true;
             SweepingTentacle.Accuracy = 80;
-            SweepingTentacle.DiceMultiplier = 0.5f;
             All.Add(SweepingTentacle);
 
             Move Witchbolt = new("Witchbolt", "Strikes two targets with purple bolts.");
             Witchbolt.MoveType = MoveType.DamageMagical;
             Witchbolt.MaxTargets = 2;
-            Witchbolt.DiceMultiplier = 0.7f;
             All.Add(Witchbolt);
 
             Move VileBlade = new("Vile Blade", "Cuts the target with a vile blade.");
-            VileBlade.DiceMultiplier = 2.0f;
+            VileBlade.DiceMultiplier = 3;
+            VileBlade.DiceBonus = 4;
             All.Add(VileBlade);
+
+            Move Ward = new("Ward", "Creates a shimmering barrier around the target.");
+            Ward.MoveType = MoveType.Buff;
+            Ward.BuffType = BuffType.Shield;
+            All.Add(Ward);
         }
     }
 }
