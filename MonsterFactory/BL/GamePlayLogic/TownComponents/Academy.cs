@@ -1,4 +1,5 @@
 ﻿using MonsterFactory.UI;
+using System;
 using TheMonsterFactory.BL.GamePlay;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedClasses;
@@ -10,10 +11,11 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
         public static void VisitAcademy(GameData gameData)
         {
             gameData.TextManager.WriteColour($"The academy will allow you to upgrade and promote your heroes.", ColourTag.Default);
+            gameData.TextManager.WriteColour($"Your gold: [{gameData.Gold}]", ColourTag.Alert);
             List<Hero> promotionList = new();
             foreach (Hero hero in gameData.HeroList)
             {
-                if (hero.Level >= hero.AdvanceLevel && hero is not AdvancedHero)
+                if (hero.UpgradeTypes.Count > 0)
                 {
                     promotionList.Add(hero);
                 }
@@ -21,87 +23,64 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
 
             if (promotionList.Count < 1)
             {
-                gameData.TextManager.WriteColour($"There are no heroes ready for promotion yet.", ColourTag.Default);
+                gameData.TextManager.WriteColour($"There are no heroes suitable for promotion.", ColourTag.Default);
             }
             else
             {
-                gameData.TextManager.WriteColour($"Heroes ready for promotion:", ColourTag.Default);
+                gameData.TextManager.WriteColour($"Heroes with available promotions:", ColourTag.Default);
 
                 for (int i = 0; i < promotionList.Count; i++)
                 {
                     gameData.TextManager.WriteColour($"[{i}] {promotionList[i].ShortStats()}", ColourTag.Information);
+                    PrintPromotionInfo(gameData, promotionList[i]);
                 }
                 string choice = gameData.TextManager.ReadKey().ToLower();
 
                 if (int.TryParse(choice, out int iChoice) && iChoice >= 0 && iChoice < promotionList.Count)
                 {
-                    if (promotionList[iChoice] is Cleric || promotionList[iChoice] is Scribe)
-                    {
-                        int cost = 40 * promotionList[iChoice].Level;
-                        gameData.TextManager.WriteColour($"Promote {promotionList[iChoice]} to [Sorcerer] for [{cost} gold]? (Y/N)", ColourTag.Alert);
-                        choice = gameData.TextManager.ReadKey().ToLower();
-                        if (choice == "y")
-                        {
-                            if (gameData.Gold >= cost)
-                            {
-                                if (PromoteToSorcerer(gameData, promotionList[iChoice]))
-                                {
-                                    gameData.TextManager.WriteColour($"[Successfully promoted!].", ColourTag.SmallSuccess);
-                                }
-                            }
-                            else
-                            {
-                                gameData.TextManager.WriteColour($"Not enough gold.", ColourTag.Subtle);
-                            }
-                        }
-                    }
-                    else if (promotionList[iChoice] is Fighter)
-                    {
-                        int cost = 30 * promotionList[iChoice].Level;
-                        gameData.TextManager.WriteColour($"Promote {promotionList[iChoice]} to [Knight] for [{cost} gold]? (Y/N)", ColourTag.Alert);
-                        choice = gameData.TextManager.ReadKey().ToLower();
-                        if (choice == "y")
-                        {
-                            if (gameData.Gold >= cost)
-                            {
-                                if (PromoteToKnight(gameData, promotionList[iChoice]))
-                                {
-                                    gameData.TextManager.WriteColour($"[Successfully promoted!].", ColourTag.SmallSuccess);
-                                }
-                            }
-                            else
-                            {
-                                gameData.TextManager.WriteColour($"Not enough gold.", ColourTag.Subtle);
-                            }
-                        }
-                    }
+                    gameData.TextManager.ClearScreen();
+                    gameData.TextManager.WriteColour($"Your gold: [{gameData.Gold}]", ColourTag.Alert);
+                    PromoteHero(gameData, promotionList[iChoice]);
+                }
+                else
+                {
+                    gameData.TextManager.WriteColour("Returning to town.", ColourTag.Success);
                 }
             }
             gameData.TextManager.ContinueAfterAnyKey();
         }
 
-        static bool PromoteToSorcerer(GameData gameData, Hero hero)
+        internal static void PrintPromotionInfo(GameData gameData, Hero hero)
         {
-            if (hero is Cleric || hero is Scribe)
-            {
-                Sorcerer sorcerer = new(hero.Name, hero.Level);
-                gameData.HeroList.Remove(hero);
-                gameData.HeroList.Add(sorcerer);
-                return true;
-            }
-            return false;
-        }
+            hero.UpdateUpgrades();
 
-        static bool PromoteToKnight(GameData gameData, Hero hero)
-        {
-            if (hero is Fighter)
+            int index = 0;
+            foreach (Hero aHero in hero.UpgradeTypes)
             {
-                Knight knight = new(hero.Name, hero.Level);
-                gameData.HeroList.Remove(hero);
-                gameData.HeroList.Add(knight);
-                return true;
+                gameData.TextManager.WriteColour($"\t- Can become [{aHero.GetType().Name}] for {aHero.BaseCost * hero.Level}g at lvl{aHero.AdvanceLevel}.", ColourTag.Emphasis);
+                index++;
             }
-            return false;
+        }
+        internal static void PromoteHero(GameData gameData, Hero hero)
+        {
+            gameData.TextManager.WriteColour($"Choose promotion for {hero}", ColourTag.Information);
+            int index = 0;
+            foreach (Hero upgradeType in hero.UpgradeTypes)
+            {
+                gameData.TextManager.WriteColour($"{index} [{upgradeType.GetType().Name}]\tPrice: {upgradeType.BaseCost * hero.Level}g\t Required lvl: {upgradeType.AdvanceLevel}", ColourTag.Emphasis);
+                index++;
+            }
+            string choice = gameData.TextManager.ReadKey();
+
+            if (int.TryParse(choice, out int iChoice) && iChoice >= 0 && iChoice < hero.UpgradeTypes.Count)
+            {
+                //Hero upgradedHero = hero.UpgradeTypes[iChoice];
+
+                //if (gameData.Gold >= upgradedHero.BaseCost * hero.Level && hero.Level >= upgradedHero.AdvanceLevel)
+                //{
+                //    find out how to get the correct upgrade type!
+                //}
+            }
         }
     }
 }
