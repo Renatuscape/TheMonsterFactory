@@ -7,14 +7,15 @@ using TheMonsterFactory.BL.GameStructure;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Monsters;
 using TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes;
 using TheMonsterFactory.BL.GamePlayLogic.ShopComponents;
+using TheMonsterFactory.Rendering;
 
 namespace TheMonsterFactory.BL.GamePlay
 {
     public class NewGame
     {
-        public NewGame(ITextManagement textManager)
+        public NewGame(ITextManagement textManager, IRender render)
         {
-            GameData gameData = new(textManager);
+            GameData gameData = new(textManager, render);
 
             textManager.WriteLine(" *** WELCOME TO THE MONSTER FACTORY *** ");
             HeroChecker.HeroNumerCheck(gameData);
@@ -51,6 +52,7 @@ namespace TheMonsterFactory.BL.GamePlay
                 {
                     break;
                 }
+                gameData.Render.Roster(gameData);
 
                 while (true)
                 {
@@ -155,12 +157,12 @@ namespace TheMonsterFactory.BL.GamePlay
                 {
                     int roundMultiplier = (ChapterManager.GetRemainingRounds(gameData.CurrentChapter) - 1) * -2;
                     int monsterModifier = gameData.MonsterList.Count > 0 ? gameData.MonsterList.Count : 1;
-                    int maxDamage = Convert.ToInt32(hero.Health * roundMultiplier + monsterModifier);
-                    int damage = gameData.randomiser.Next(Convert.ToInt32(hero.Health * 0.4f), maxDamage);
+                    int maxDamage = Convert.ToInt32(hero.CurrentHealth * roundMultiplier + monsterModifier);
+                    int damage = gameData.randomiser.Next(Convert.ToInt32(hero.CurrentHealth * 0.4f), maxDamage);
 
-                    hero.Health -= damage;
+                    hero.CurrentHealth -= damage;
                     gameData.TextManager.WriteColour($"{hero} takes [{damage} damage.]", ColourTag.Critical);
-                    if (hero.Health <= 0)
+                    if (hero.CurrentHealth <= 0)
                     {
                         gameData.TextManager.WriteColour($"{hero} [died.]", ColourTag.Critical);
                         killList.Add(hero);
