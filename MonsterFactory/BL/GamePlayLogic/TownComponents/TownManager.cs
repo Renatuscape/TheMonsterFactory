@@ -53,6 +53,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
                     gameData.TextManager.WriteColour($"[x] Leave", ColourTag.Alert);
 
                     choice = gameData.TextManager.ReadKey().ToLower();
+                    gameData.TextManager.WriteLine("");
 
                     if (choice == "x")
                     {
