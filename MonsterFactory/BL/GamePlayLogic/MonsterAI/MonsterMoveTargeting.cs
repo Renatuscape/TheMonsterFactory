@@ -70,12 +70,12 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
 
             if (activeCreature.MonsterLogic.logicType == MonsterLogicType.AidLowestHealth)
             {
-                targetList.Sort((x, y) => x.Health.CompareTo(y.Health));
+                targetList.Sort((x, y) => x.CurrentHealth.CompareTo(y.CurrentHealth));
             }
             else if (activeCreature.MonsterLogic.logicType == MonsterLogicType.AidHighestHealth)
             {
-                targetList.Sort((x, y) => x.Health.CompareTo(y.Health));
-                targetList = targetList.OrderByDescending(o => o.Health).ToList();
+                targetList.Sort((x, y) => x.CurrentHealth.CompareTo(y.CurrentHealth));
+                targetList = targetList.OrderByDescending(o => o.CurrentHealth).ToList();
             }
             else if (activeCreature.MonsterLogic.logicType == MonsterLogicType.AidLowestLevel)
             {
