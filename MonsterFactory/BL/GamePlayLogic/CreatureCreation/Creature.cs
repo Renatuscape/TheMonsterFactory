@@ -7,10 +7,13 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
     {
         public int BaseCost { get; set; } = 10;
         public string Name { get; set; }
-        public int Health { get; set; }
+        public int CurrentHealth { get; set; }
+        public int MaxHealth { get; set; }
+        public int HealthMultiplier { get; set; } = 1;
         public int Level { get; set; } = 1;
         public int Experience { get; set; }
-        public Die Die { get; set; }
+        public Die ActionDie { get; set; }
+        public Die HealthDie { get; set; }
         public bool IsDefending { get; set; }
         public string Description { get; set; } = string.Empty;
         public List<Move> MoveList { get; set; } = new();
@@ -21,7 +24,9 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
         {
             Name = name;
             Level = 0;
-            Die = new D4();
+            ActionDie = new D4();
+            HealthDie = new D4();
+
             UpdateHealth();
             Moves.Find("Defend", MoveList);
 
@@ -33,7 +38,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 
         public virtual void UpdateHealth()
         {
-            Health += Die.Roll(Level) + Level;
+            MaxHealth = HealthDie.Roll(HealthMultiplier) + Level;
+            CurrentHealth = MaxHealth;
         }
 
         public virtual void AddXP(int xp, out string xpText, out string? levelUpText)
@@ -57,19 +63,27 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
 
                 if (Level >= 18)
                 {
-                    Die = new D12();
+                    HealthMultiplier = 7;
                 }
                 else if (Level >= 14)
                 {
-                    Die = new D10();
+                    HealthMultiplier = 6;
                 }
                 else if (Level >= 10)
                 {
-                    Die = new D8();
+                    HealthMultiplier = 5;
                 }
                 else if (Level >= 6)
                 {
-                    Die = new D6();
+                    HealthMultiplier = 4;
+                }
+                else if (Level >= 4)
+                {
+                    HealthMultiplier = 3;
+                }
+                else if (Level >= 2)
+                {
+                    HealthMultiplier = 2;
                 }
             }
             UpdateHealth();
@@ -79,23 +93,17 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
         {
             return $"Name: {$"[{Name} ({GetType().Name})]",-20}\n" +
                 $"| Level: {Level,-20}\n" +
-                $"| Health: {Health,-20}\n" +
-                $"| Action Die: {Die.GetType().Name,-20}\n" +
+                $"| Health: {$"{CurrentHealth}/{MaxHealth} ({HealthDie.GetType().Name})",-20}\n" +
+                $"| Action Die: {ActionDie.GetType().Name,-20}\n" +
                 $"| Desciption: {Description,-20}\n";
         }
         public virtual string ShortStats()
         {
-            return $"[{Name} (Lv.{Level} {GetType().Name})] HP: {Health}{(IsDefending == false ? null : " [(S)]")}";
+            return $"[{Name} (Lv.{Level} {GetType().Name})] HP: {CurrentHealth}/{MaxHealth}{(IsDefending == false ? null : " [(S)]")}";
         }
         public override string ToString()
         {
             return $"[{Name} ({GetType().Name})]";
         }
-
-        /*public virtual string Defend()
-        {
-            IsDefending = true;
-            return $"[{Name}] takes a defensive stance.";
-        }*/
     }
 }
