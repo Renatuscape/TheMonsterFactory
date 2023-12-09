@@ -18,17 +18,5 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedCla
             Moves.Find("Cure", MoveList);
             Moves.Find("Witchbolt", MoveList);
         }
-
-        public override void UpdateHealth()
-        {
-            int healthBoost = 0;
-            healthBoost += Die.Roll(Level);
-            Health += Convert.ToInt32(healthBoost * 0.8f);
-
-            if (Health < 2)
-            {
-                Health = 2;
-            }
-        }
     }
 }

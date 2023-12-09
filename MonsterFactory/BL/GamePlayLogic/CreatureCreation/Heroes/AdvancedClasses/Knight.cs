@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheMonsterFactory.BL.CombatMoves;
+using TheMonsterFactory.BL.DiceLogic;
 
 namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedClasses
 {
@@ -11,21 +12,10 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes.AdvancedCla
     {
         public Knight(string name, int level) : base(name, level)
         {
+            HealthDie = new D10();
             Evasiveness = 0;
             Description = "A confident and sturdy warrior.";
             Moves.Find("Steel Sword", MoveList);
-        }
-
-        public override void UpdateHealth()
-        {
-            int healthBoost = 0;
-            healthBoost += Die.Roll(Level);
-            Health += Convert.ToInt32(healthBoost * 1.5f);
-
-            if (Health < 2)
-            {
-                Health = 2;
-            }
         }
     }
 }
