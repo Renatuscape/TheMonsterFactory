@@ -39,7 +39,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
                     gameData.Gold += -restPrice;
                     foreach (Hero hero in gameData.HeroList)
                     {
-                        hero.Health += restBonus;
+                        hero.CurrentHealth += restBonus;
                     }
                     gameData.TextManager.WriteColour($"Everyone enjoys a lovely rest and wakes up with [{restBonus}] health restored.", ColourTag.SmallSuccess);
                     gameData.TextManager.ContinueAfterAnyKey();
