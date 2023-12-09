@@ -1,5 +1,6 @@
 ﻿using MonsterFactory.UI;
 using TheMonsterFactory.BL.GamePlay;
+using TheMonsterFactory.Rendering;
 
 namespace TheMonsterFactory.BL
 {
@@ -8,7 +9,8 @@ namespace TheMonsterFactory.BL
         static void Main(string[] args)
         {
             ConsoleTextManager textManager = new();
-            NewGame gameplay = new(textManager);
+            ConsoleRenderer render = new();
+            NewGame gameplay = new(textManager, render);
         }
     }
 }
