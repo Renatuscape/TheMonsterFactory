@@ -119,7 +119,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
                     if (move.Accuracy - target.Evasiveness > gameData.randomiser.Next(0, 100))
                     {
                         int damage = MoveManager.DamageCalculator(move, activeCreature);
-                        target.Health += -damage;
+                        target.CurrentHealth += -damage;
                         gameData.TextManager.WriteColour($"{target} took [{damage} damage]!", ColourTag.Critical);
                     }
                     else
@@ -139,7 +139,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             foreach (Creature ally in targetList)
             {
                 int damage = MoveManager.DamageCalculator(move, activeCreature);
-                ally.Health += damage;
+                ally.CurrentHealth += damage;
                 gameData.TextManager.WriteColour($"{ally} regains [{damage} points of health]!", ColourTag.Emphasis);
             }
         }
@@ -149,7 +149,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             for (int i = gameData.HeroList.Count - 1; i >= 0; i--)
             {
                 var hero = gameData.HeroList[i];
-                if (hero.Health <= 0)
+                if (hero.CurrentHealth <= 0)
                 {
                     gameData.TextManager.WriteColour($"{hero} [died].", ColourTag.Critical);
                     gameData.HeroList.Remove(hero);
@@ -159,7 +159,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.MonsterAI
             for (int i = gameData.MonsterList.Count - 1; i >= 0; i--)
             {
                 var monster = gameData.MonsterList[i];
-                if (monster.Health <= 0)
+                if (monster.CurrentHealth <= 0)
                 {
                     gameData.TextManager.WriteColour($"{monster} was [killed].", ColourTag.Critical);
                     gameData.MonsterList.Remove(monster);
