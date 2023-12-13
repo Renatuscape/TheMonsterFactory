@@ -19,7 +19,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation.Heroes
             {
                 hero.Name = Name;
                 hero.Level = Level;
-                hero.UpdateHealth();
+                hero.RollMaxHealth();
             }
         }
     }

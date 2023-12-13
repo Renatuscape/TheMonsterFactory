@@ -9,7 +9,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
         public string Name { get; set; }
         public int CurrentHealth { get; set; }
         public int MaxHealth { get; set; }
-        public int HealthMultiplier { get; set; } = 1;
+        public int BonusHealth { get; set; } = 1;
         public int Level { get; set; } = 1;
         public int Experience { get; set; }
         public Die ActionDie { get; set; }
@@ -27,7 +27,7 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
             ActionDie = new D4();
             HealthDie = new D4();
 
-            UpdateHealth();
+            RollMaxHealth();
             Moves.Find("Defend", MoveList);
 
             for (int i = 0; i < level; i++)
@@ -36,9 +36,9 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
             }
         }
 
-        public virtual void UpdateHealth()
+        public virtual void RollMaxHealth()
         {
-            MaxHealth = HealthDie.Roll(HealthMultiplier) + Level;
+            MaxHealth = HealthDie.Roll(Level) + BonusHealth;
             CurrentHealth = MaxHealth;
         }
 
@@ -60,33 +60,8 @@ namespace TheMonsterFactory.BL.GamePlayLogic.CreatureCreation
             if (Level < 20)
             {
                 Level++;
-
-                if (Level >= 18)
-                {
-                    HealthMultiplier = 7;
-                }
-                else if (Level >= 14)
-                {
-                    HealthMultiplier = 6;
-                }
-                else if (Level >= 10)
-                {
-                    HealthMultiplier = 5;
-                }
-                else if (Level >= 6)
-                {
-                    HealthMultiplier = 4;
-                }
-                else if (Level >= 4)
-                {
-                    HealthMultiplier = 3;
-                }
-                else if (Level >= 2)
-                {
-                    HealthMultiplier = 2;
-                }
             }
-            UpdateHealth();
+            RollMaxHealth();
         }
 
         public virtual string FullStats()
