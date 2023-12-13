@@ -11,7 +11,6 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
         {
             string choice = string.Empty;
             int restPrice = 20 * gameData.PlayerLevel * gameData.HeroList.Count;
-            int restBonus = 10 * gameData.PlayerLevel;
 
             while (choice != "0" && choice != "1")
             {
@@ -39,9 +38,9 @@ namespace TheMonsterFactory.BL.GamePlayLogic.ShopComponents
                     gameData.Gold += -restPrice;
                     foreach (Hero hero in gameData.HeroList)
                     {
-                        hero.CurrentHealth += restBonus;
+                        hero.CurrentHealth = hero.MaxHealth;
                     }
-                    gameData.TextManager.WriteColour($"Everyone enjoys a lovely rest and wakes up with [{restBonus}] health restored.", ColourTag.SmallSuccess);
+                    gameData.TextManager.WriteColour($"Everyone enjoys a lovely rest and wakes up with full health.", ColourTag.SmallSuccess);
                     gameData.TextManager.ContinueAfterAnyKey();
                 }
             }
