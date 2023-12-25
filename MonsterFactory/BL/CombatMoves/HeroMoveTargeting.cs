@@ -102,10 +102,11 @@ namespace TheMonsterFactory.BL.CombatMoves
             int target = -1;
             while (target <= -1 || target >= gameData.HeroList.Count)
             {
-                for (int i = 0; i < gameData.HeroList.Count; i++)
-                {
-                    gameData.TextManager.WriteLine($"{i}: {gameData.HeroList[i].ShortStats()}");
-                }
+                gameData.Render.IndexedHeroList(gameData);
+                //for (int i = 0; i < gameData.HeroList.Count; i++)
+                //{
+                //    gameData.TextManager.WriteLine($"{i}: {gameData.HeroList[i].ShortStats()}");
+                //}
 
                 string input = gameData.TextManager.ReadKey();
                 gameData.TextManager.WriteLine("");
@@ -143,10 +144,12 @@ namespace TheMonsterFactory.BL.CombatMoves
             {
                 while (target < 0 || target >= gameData.MonsterList.Count)
                 {
-                    for (int i = 0; i < gameData.MonsterList.Count; i++)
-                    {
-                        gameData.TextManager.WriteLine($"{i}: {gameData.MonsterList[i].ShortStats()}");
-                    }
+                    gameData.Render.IndexedMonsterList(gameData);
+
+                    //for (int i = 0; i < gameData.MonsterList.Count; i++)
+                    //{
+                    //    gameData.TextManager.WriteLine($"{i}: {gameData.MonsterList[i].ShortStats()}");
+                    //}
 
                     string input = gameData.TextManager.ReadKey();
                     gameData.TextManager.WriteLine("");
